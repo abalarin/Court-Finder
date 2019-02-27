@@ -7,3 +7,9 @@ users = Blueprint('users', __name__)
 def profile():
     username = "Narwhalian"
     return render_template('profile.html', name=username)
+
+
+@users.route('/abalarin')
+def abalarin_route():
+    username = "abalarin"
+    return render_template('profile.html', name=username)
