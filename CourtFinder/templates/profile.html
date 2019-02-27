@@ -1,0 +1,12 @@
+<!-- Lets render the "layout" template -->
+{% extends 'layout.html' %}
+
+<!-- everything wrapped in this "block" will be loaded into the "layout" template -->
+{% block content %}
+
+<div class="">
+  <h1>This is {{name}}'s Profile</h1>
+  <p>We's gonna display some stats</p>
+</div>
+
+{% endblock %}
