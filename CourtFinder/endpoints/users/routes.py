@@ -13,3 +13,9 @@ def profile():
 def abalarin_route():
     username = "abalarin"
     return render_template('users/profile.html', name=username)
+
+
+@users.route('/mzacierka')
+def mzacierka_route():
+    username = "mzacierka"
+    return render_template('users/profile.html', name=username)
