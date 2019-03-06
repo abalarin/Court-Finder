@@ -7,6 +7,7 @@
 
   <!-- Home Made Styles  -->
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/map.css') }}">
 
   <!-- Fonts Styles -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -26,12 +27,14 @@
   <!-- Render The Navbar template  -->
   {% include 'includes/_navbar.html' %}
 
-  <div class="container">
+  <!-- Map View -->
+  <span class="metadata-marker" style="display: none;" data-region_tag="html-body"></span>
+  <div id="map"></div>
 
-    <!-- Loads and renders content blocks of a template -->
-    {% block content %} {% endblock %}
-
-  </div>
+  <!-- Map Scripts -->
+  <script type="text/javascript" src="static/scripts/map.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Sr3oT1HlWBky0ex_akZc-uuNUWy51E8
+  &callback=initMap" async defer></script>
 
 </body>
 
