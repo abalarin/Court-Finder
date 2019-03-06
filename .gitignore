@@ -5,6 +5,15 @@ CourtFinder/__init__.pyc
 CourtFinder/__pycache__
 CourtFinder/endpoints/__init__.pyc
 CourtFinder/endpoints/__pycache__
+
 CourtFinder/endpoints/main/__pycache__
+CourtFinder/endpoints/main/routes.pyc
+CourtFinder/endpoints/main/__init__.pyc
+
 CourtFinder/endpoints/courts/__pycache__
+CourtFinder/endpoints/courts/routes.pyc
+CourtFinder/endpoints/courts/__init__.pyc
+
 CourtFinder/endpoints/users/__pycache__
+CourtFinder/endpoints/users/routes.pyc
+CourtFinder/endpoints/users/__init__.pyc

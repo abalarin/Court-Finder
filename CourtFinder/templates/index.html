@@ -3,39 +3,11 @@
 
 <!-- everything wrapped in this "block" will be loaded into the "layout" template -->
 {% block content %}
-<style>
-  <span class="metadata-marker"style="display: none;"data-region_tag="css"></span>
-
-  /* Always set the map height explicitly to define the size of the div
-       * element that contains the map. */
-  #map {
-    height: 100%;
-  }
-</style>
 
 <div class="">
   <h1>This is the Flask App!</h1>
   <p>We's gonna make a bball court finder</p>
 </div>
 
-<span class="metadata-marker" style="display: none;" data-region_tag="html-body"></span>
-<div id="map"></div>
-
-<script>
-  < span class = "metadata-marker"
-  style = "display: none;"
-  data - region_tag = "script-body" > < /span>      var map;
-
-  function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), {
-      center: {
-        lat: -34.397,
-        lng: 150.644
-      },
-      zoom: 8
-    });
-  }
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
 
 {% endblock %}
