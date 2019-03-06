@@ -1,8 +1,8 @@
-from flask import Blueprint, redirect, url_for
+from flask import Blueprint, render_template
 
 courts = Blueprint('courts', __name__)
 
 
-@courts.route('/court')
+@courts.route('/courts')
 def list_courts():
-    return redirect(url_for('main.index'))
+    return render_template('courts.html')
