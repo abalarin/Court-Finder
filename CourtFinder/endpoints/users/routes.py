@@ -19,3 +19,9 @@ def abalarin_route():
 def mzacierka_route():
     username = "mzacierka"
     return render_template('users/profile.html', name=username)
+
+
+@users.route('/jgraf')
+def jgraf_route():
+    username = "jgraf"
+    return render_template('users/profile.html', name=username)
