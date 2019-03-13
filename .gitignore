@@ -1,4 +1,6 @@
+flaskenv
 venv
+
 CourtFinder.egg-info
 
 CourtFinder/__init__.pyc
@@ -17,3 +19,7 @@ CourtFinder/endpoints/courts/__init__.pyc
 CourtFinder/endpoints/users/__pycache__
 CourtFinder/endpoints/users/routes.pyc
 CourtFinder/endpoints/users/__init__.pyc
+
+
+CourtFinder/models/__pycache__
+CourtFinder/models/__init__.pyc
