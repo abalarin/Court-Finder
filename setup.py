@@ -5,5 +5,7 @@ setup(
     packages=['CourtFinder'],
     install_requires=[
         'flask',
+        'flask_sqlalchemy',
+        'mysqlclient',
     ]
 )
