@@ -3,6 +3,7 @@ venv
 
 CourtFinder.egg-info
 *.xml
+*.iml
 CourtFinder/__init__.pyc
 CourtFinder/__pycache__
 CourtFinder/endpoints/__init__.pyc
