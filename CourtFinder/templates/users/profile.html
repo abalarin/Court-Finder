@@ -3,10 +3,19 @@
 
 <!-- everything wrapped in this "block" will be loaded into the "layout" template -->
 {% block content %}
-
-<div class="">
-  <h1>This is {{name}}'s Profile</h1>
-  <p>We's gonna display some stats</p>
-</div>
-
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/profile.css') }}">
+<div class="content">
+    <div class="background">
+      <span id="header">Player Profile</span>
+      <img src="{{ url_for('static', filename='images/basketball.png') }}" alt="Profile Image">
+      <div class="stats">
+        <h2>{{user.username}}</h2>
+        <h5>{{user.first_name}} {{user.last_name}}</h5>
+        <p>Height: {{user.height}}</p>
+        <p>Weight: {{user.weight}}</p>
+        <p>Skill: {{user.skill_level}}</p>
+        <p>Games played: {{user.court_visits}}</p>
+      </div>
+    </div>
+  </div>
 {% endblock %}
