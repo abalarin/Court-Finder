@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template
 
+from CourtFinder import db
+from CourtFinder.models.courts import Court
 
 main = Blueprint('main', __name__)
 
