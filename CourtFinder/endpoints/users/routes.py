@@ -12,7 +12,7 @@ users = Blueprint('users', __name__)
 @users.route('/profile')
 def profile():
     if current_user.is_authenticated:
-        return render_template("users/profile.html", name=current_user.username)
+        return render_template("users/profile.html", user=current_user)
     else:
         print(current_user)
         return render_template('users/login.html')
@@ -36,7 +36,7 @@ def login():
             # Init session vars
             login_user(result)
 
-            return render_template('users/profile.html', name=result.username)
+            return render_template('users/profile.html', user=result)
 
         else:
             return render_template('users/login.html')
