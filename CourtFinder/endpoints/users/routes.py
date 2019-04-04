@@ -68,12 +68,29 @@ def register():
 
         # --- lets protect this insertion(verify if registering user exsists first)
         # Insert new user into SQL
-        db.session.add(new_user)
-        db.session.commit()
+        if user_exsists(new_user.username, new_user.email):
+            # flash('User already exsists!', 'danger')
+            return render_template('users/register.html', form=form)
+        else:
+            db.session.add(new_user)
+            db.session.commit()
 
-        # Init session vars
-        login_user(new_user)
+            # Init session vars
+            login_user(new_user)
 
         return render_template('users/profile.html', name=new_user.username)
 
     return render_template('users/register.html', form=form)
+
+# Check if username or email are already taken
+
+
+def user_exsists(username, email):
+    # Get all Users in SQL
+    users = User.query.all()
+    for user in users:
+        if username == user.username or email == user.email:
+            return True
+
+    # No matching user
+    return False
