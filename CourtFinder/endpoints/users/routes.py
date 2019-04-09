@@ -36,9 +36,11 @@ def login():
             # Init session vars
             login_user(result)
 
+            flash('Successful Login!', 'success')
             return render_template('users/profile.html', user=result)
 
         else:
+            flash('Incorrect Login!', 'danger')
             return render_template('users/login.html')
 
 
@@ -69,7 +71,7 @@ def register():
         # --- lets protect this insertion(verify if registering user exsists first)
         # Insert new user into SQL
         if user_exsists(new_user.username, new_user.email):
-            # flash('User already exsists!', 'danger')
+            flash('User already exsists!', 'danger')
             return render_template('users/register.html', form=form)
         else:
             db.session.add(new_user)
@@ -78,7 +80,7 @@ def register():
             # Init session vars
             login_user(new_user)
 
-        return render_template('users/profile.html', name=new_user.username)
+            return render_template('users/profile.html', user=new_user)
 
     return render_template('users/register.html', form=form)
 
