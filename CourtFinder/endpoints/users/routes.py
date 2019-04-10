@@ -35,8 +35,6 @@ def login():
 
             # Init session vars
             login_user(result)
-
-            flash('Successful Login!', 'success')
             return render_template('users/profile.html', user=result)
 
         else:
@@ -68,7 +66,6 @@ def register():
             email=form.email.data,
             password=hashed_pass)
 
-        # --- lets protect this insertion(verify if registering user exsists first)
         # Insert new user into SQL
         if user_exsists(new_user.username, new_user.email):
             flash('User already exsists!', 'danger')
