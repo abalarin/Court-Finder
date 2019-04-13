@@ -36,6 +36,15 @@
     {% include 'includes/_messages.html' %}
 
     <!-- Loads and renders content blocks of a template -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert- {{ category }}">
+            {{ message }}
+          </div>
+        {% end for %}
+      {% end if %}
+    {% end with %}
     {% block content %} {% endblock %}
 
   </div>
