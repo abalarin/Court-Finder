@@ -32,7 +32,8 @@
   <!-- Render The Navbar template  -->
   {% include 'includes/_navbar.html' %}
 
-  <div class="container">
+  <div class="container body">
+    {% include 'includes/_messages.html' %}
 
     <!-- Loads and renders content blocks of a template -->
     {% block content %} {% endblock %}
