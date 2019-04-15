@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 from CourtFinder.models.courts import Court
 from CourtFinder.endpoints.courts.forms import CourtSearch
+
 courts = Blueprint('courts', __name__)
 
 
@@ -20,3 +21,6 @@ def list_courts():
         return render_template('courts/courts.html', Courts=court, form=form)
 
 
+@courts.route("/map")
+def map_view():
+    return render_template('courts/map.html')
