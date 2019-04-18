@@ -7,9 +7,6 @@
   margin: 15px 0 15px 0;
 }
 
-.court img {
-}
-
 .court hr {
   width: 75%;
 }
@@ -20,9 +17,11 @@
   border-color: yellow;
 }
 
-
 .lights-off {
   border-width: 2px;
   border-style: solid;
   border-color: #002c75;
+}
+.hidden {
+    display: none;
 }

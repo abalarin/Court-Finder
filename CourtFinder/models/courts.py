@@ -10,6 +10,8 @@ class Court(db.Model):
     lights = db.Column(db.Boolean)
     membership_required = db.Column(db.Boolean)
     description = db.Column(db.String(200))
+    latitude = db.Column(db.Numeric(10, 8))
+    longitude = db.Column(db.Numeric(11, 8))
 
     def __repr__(self):
         return '<Court %r>' % self.name

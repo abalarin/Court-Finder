@@ -8,5 +8,6 @@ setup(
         'flask_sqlalchemy',
         'flask-security',
         'mysqlclient',
+        'googlemaps',
     ]
 )

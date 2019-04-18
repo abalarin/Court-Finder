@@ -22,7 +22,7 @@
 
 </head>
 
-<body>
+<body onload='initMap({{courts|safe}})'>
 
   <!-- Render The Navbar template  -->
   {% include 'includes/_navbar.html' %}
@@ -35,7 +35,6 @@
   <script type="text/javascript" src="static/scripts/map.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Sr3oT1HlWBky0ex_akZc-uuNUWy51E8
   &callback=initMap" async defer></script>
-
 </body>
 
 </html>
