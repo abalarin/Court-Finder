@@ -2,6 +2,7 @@ flaskenv
 venv
 
 CourtFinder/config.py
+CourtFinder/config.pyc
 
 CourtFinder.egg-info
 *.xml
@@ -22,6 +23,10 @@ CourtFinder/endpoints/courts/__init__.pyc
 CourtFinder/endpoints/users/__pycache__
 CourtFinder/endpoints/users/routes.pyc
 CourtFinder/endpoints/users/__init__.pyc
+CourtFinder/endpoints/users/forms.pyc
+
 
 CourtFinder/models/__pycache__
 CourtFinder/models/__init__.pyc
+CourtFinder/models/courts.pyc
+CourtFinder/models/users.pyc

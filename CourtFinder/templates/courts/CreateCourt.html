@@ -1,0 +1,72 @@
+
+{% extends 'layout.html' %}
+
+{% block content %}
+<form method="POST">
+
+  <div class="form-group row">
+    <label for="inputCourtName" class="col-sm-2 col-form-label">Court Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="inputCourtName" placeholder="Court Name">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputCourtAddress" class="col-sm-2 col-form-label">Court Address</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="inputCourtAddress" placeholder="Court Address">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="inputNumCourts" class="col-sm-2 col-form-label">Number of courts</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="inputNumCourts" placeholder="Number of Courts">
+    </div>
+  </div>
+  <div class="form-group">
+   <label for="exampleFormControlTextarea1">Court Description</label>
+   <textarea class="form-control" name="inputCourtDescription" rows="3"></textarea>
+ </div>
+  <fieldset class="form-group">
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="publicprivateRadios" name="privateRadios1" value=1 checked>
+          <label class="form-check-label" for="privateRadios1">
+            Private
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="publicprivateRadios" value=0>
+          <label class="form-check-label" for="publicRadios2">
+            Public
+          </label>
+        </div>
+      </div>
+    </div>
+
+      </fieldset>
+      <fieldset>
+        <div class="row">
+          <div class="col-sm-10">
+            <div class="form-check">
+          <input class="form-check-input" type="radio" name="lightsRadios" value=1 checked>
+          <label class="form-check-label" for="yesRadio1">
+            lights
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="lightsRadios" name="noRadio2" value=0>
+          <label class="form-check-label" for="noRadio2">
+            no lights
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+  </div>
+</form>
+{% endblock %}
