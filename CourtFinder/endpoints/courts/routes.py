@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template
 from flask import flash
 from CourtFinder.models.courts import Court
+from flask import Blueprint, render_template, redirect, url_for, request, flash
+from CourtFinder import db
+#from CourtFinder.endpoints.courts.CreateCourtForm import CreateCourtForm
 
 courts = Blueprint('courts', __name__)
 
@@ -17,32 +20,42 @@ def map():
 
 @courts.route('/CreateCourt', methods=['GET', 'POST'])
 def createCourt():
-     form = CreateCourtForm()
-     if form.validate_on_submit():
-         court = Court(address=form.address.data, name=form.courtname.data, total_courts=form.numcourts.data, total_visits=0, lights=form.lights.data, membership_required=form.membership.data, description=form.description.data)
+     if request.method == 'GET':
+         return render_template('courts/CreateCourt.html')
+     elif request.method == 'POST':
+         court = Court(
+         address=request.form.get('inputCourtAddress'),
+         name=request.form.get('inputCourtName'),
+         total_courts=request.form.get('inputNumCourts'),
+         total_visits=0,
+         lights=int(request.form.get('lightsRadios')),
+         membership_required =int(request.form.get('publicprivateRadios')),
+         description = request.form.get('inputCourtDescription'))
          db.session.add(court)
          db.session.commit()
+         #print(court.lights, court.membership_required)
          flash('Court Created!', 'success')
-         return render_template('/index.html')
-     return render_template('create.html', title='CreateCourt', form=form, legend='Create Post')
+         return redirect(url_for('courts.list_courts'))
 
-@courts.route('/courts/<int:court_id>/update', methods=['GET', 'POST'])
-def updateCourt():
-    court = Court.query.get_or_404(id)
-         form= CreateCourtForm()
-    if form.validate_on_submit():
-        court.name = form.courtname.data
-        court.address = form.address.data
-        court.lights = form.lights.data
-        court.membership_required = form.membership.data
-        court.description = form.description.data
-        db.session.commit()
-        flash('Your court has been updated!', 'success')
-         return render_template('/index.html')
-     elif request.method == 'Get':
-        form.description.data = court.description
-        form.courtname.data = court.name
-        form.address.data = court.address
-        form.lights.data = court.lights
-        form.membership.data= court.membership_required
-        return render_template('create_court.html', title='UpdateCourt', form=form, legend ='Update Post')
+
+# @courts.route('/courts/<int:court_id>/UpdateCourt.html', methods=['GET', 'POST'])
+# def updateCourt():
+#     court = Court.query.get_or_404(id)
+#     form= CreateCourtForm()
+#     if request.method == 'POST':
+#         court.name = request.form.get('inputCourtName')
+#         court.address = request.form.get('inputCourtAddress')
+#         court.total_courts = request.form.get('inputNumCourts')
+#         court.lights = request.form.get('lightsRadios')
+#         court.membership_required = request.form.get('publicprivateRadios')
+#         court.description = request.form.get('inputCourtDescription')
+#         db.session.commit()
+#         flash('Your court has been updated!', 'success')
+#         return render_template('/index.html')
+#     elif request.method == 'GET':
+#         request.form.get('inputCourtDescription') = court.description
+#         request.form.get('inputCourtName') = court.name
+#         request.form.get('inputCourtAddress') = court.address
+#         request.form.get('lightsRadios') = court.lights
+#         request.form.get('publicprivateRadios') = court.membership_required
+#         return render_template('UpdateCourt.html')
