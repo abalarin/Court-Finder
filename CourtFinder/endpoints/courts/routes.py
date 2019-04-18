@@ -32,7 +32,7 @@ def map_view():
     # This is a list comprehension - it works exactly the same as the for loop below. I went with the for loop for a better readability
 
     # courts = {court.id :{"name" : court.name, "latlng":{ "lat": float(court.latitude), "lng":float(court.longitude)}} for court in courts}
-    
+
     courts = {}
     for court in courts_query:
         courts[court.id] = {
@@ -42,10 +42,10 @@ def map_view():
                 "lng" : float(court.longitude)
             }
         }
-        
+
     return render_template('courts/map.html', courts=json.dumps(courts))
 
-@courts.route('/CreateCourt', methods=['GET', 'POST'])
+@courts.route('/createcourt', methods=['GET', 'POST'])
 def createCourt():
      if request.method == 'GET':
          return render_template('courts/CreateCourt.html')
