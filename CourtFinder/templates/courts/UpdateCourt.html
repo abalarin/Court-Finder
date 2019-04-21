@@ -1,52 +1,95 @@
-<form>
+{% extends 'layout.html' %}
+
+{% block content %}
+<form method="POST">
+
   <div class="form-group row">
     <label for="inputCourtName" class="col-sm-2 col-form-label">Court Name</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputCourtName" placeholder=court_id.name>
+      <input type="text" class="form-control" name="inputCourtName" value='{{court.name}}'>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputCourtAddress" class="col-sm-2 col-form-label">Court Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputCourtAddress" placeholder=court_id.address>
+      <input type="text" class="form-control" name="inputCourtAddress" value='{{court.address}}'>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="xCoordCourt" class="col-sm-2 col-form-label">Court Latitude</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="xCoordCourt" value='{{court.latitude}}'>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="yCoordCourt" class="col-sm-2 col-form-label">Court Latitude</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" name="yCoordCourt" value='{{court.longitude}}'>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputNumCourts" class="col-sm-2 col-form-label">Number of courts</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputNumCourts" placeholder="Number of Courts">
+      <input type="text" class="form-control" name="inputNumCourts" value='{{court.total_courts}}'>
     </div>
   </div>
-  <div class="form-group row">
-    <label for="inputCourtDescription" class="col-sm-2 col-form-label">Court Name</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" id="inputCourtDescription" placeholder="Court Description">
-    </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Court Description</label>
+    <textarea class="form-control" name="inputCourtDescription" rows="3">{{court.description}}</textarea>
   </div>
+  {% if court.membership_required  %}
   <fieldset class="form-group">
     <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
       <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="publicprivateRadios" id="privateRadios1" value="Private" checked>
+          <input class="form-check-input" type="radio" name="publicprivateRadios" name="privateRadios1" value=1 checked>
           <label class="form-check-label" for="privateRadios1">
             Private
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="publicprivateRadios" id="publicRadios2" value="Public">
+          <input class="form-check-input" type="radio" name="publicprivateRadios" value=0>
           <label class="form-check-label" for="publicRadios2">
             Public
           </label>
         </div>
+      </div>
+    </div>
+  </fieldset>
+  {% else %}
+  <fieldset class="form-group">
+    <div class="row">
+      <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="lightsRadios" id="yesRadio1" value="yes">
+          <input class="form-check-input" type="radio" name="publicprivateRadios" name="privateRadios1" value=1>
+          <label class="form-check-label" for="privateRadios1">
+            Private
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="publicprivateRadios" value=0 checked>
+          <label class="form-check-label" for="publicRadios2">
+            Public
+          </label>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+  {% endif %}
+
+
+  {% if court.lights %}
+  <fieldset>
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="lightsRadios" value=1 checked>
           <label class="form-check-label" for="yesRadio1">
             lights
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="lightsRadios" id="noRadio2" value="no">
+          <input class="form-check-input" type="radio" name="lightsRadios" name="noRadio2" value=0>
           <label class="form-check-label" for="noRadio2">
             no lights
           </label>
@@ -54,20 +97,30 @@
       </div>
     </div>
   </fieldset>
-  <div class="form-group row">
-    <div class="col-sm-2">Checkbox</div>
-    <div class="col-sm-10">
-      <div class="form-check">
-        <input class="form-check-input" type="checkbox" id="gridCheck1">
-        <label class="form-check-label" for="gridCheck1">
-          Example checkbox
-        </label>
+  {% else %}
+  <fieldset>
+    <div class="row">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="lightsRadios" value=1>
+          <label class="form-check-label" for="yesRadio1">
+            lights
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="lightsRadios" name="noRadio2" value=0 checked>
+          <label class="form-check-label" for="noRadio2">
+            no lights
+          </label>
+        </div>
       </div>
     </div>
-  </div>
+  </fieldset>
+  {% endif %}
   <div class="form-group row">
     <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Sign in</button>
+      <button type="submit" class="btn btn-primary">Update</button>
     </div>
   </div>
 </form>
+{% endblock %}
