@@ -4,7 +4,7 @@
 {% block content %}
 
 <!-- Search Implementation (non-functional) -->
-<link rel="stylesheet" href="../static/styles/court.css">
+<link rel="stylesheet" href="/static/styles/court.css">
 <h1 style="text-align:center">Courts Near You!</h1>
 <button class="btn btn-primary" onclick="showFilter()">Filters</button>
 <div id="form" class="hidden">
@@ -44,7 +44,9 @@
 
     <div class="col-md">
       <div class="card-body">
-        <h1>{{ court.name }}</h1>
+        <a href="/court/{{court.id}}">
+          <h1>{{ court.name }}</h1>
+        </a>
         <h6>{{ court.address }}</h6>
 
         <div class="row">
