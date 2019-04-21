@@ -57,9 +57,38 @@ def createCourt():
          total_visits=0,
          lights=int(request.form.get('lightsRadios')),
          membership_required =int(request.form.get('publicprivateRadios')),
-         description = request.form.get('inputCourtDescription'))
+         description = request.form.get('inputCourtDescription'),
+         latitude = request.form.get('xCoordCourt'),
+         longitude = request.form.get('yCoordCourt'))
          db.session.add(court)
          db.session.commit()
          #print(court.lights, court.membership_required)
          flash('Court Created!', 'success')
          return redirect(url_for('courts.list_courts'))
+
+
+@courts.route('/UpdateCourt/<id>', methods=['GET', 'POST'])
+def updateCourt(id):
+    if request.method == 'POST':
+        court = Court.query.filter_by(id=id).first()
+        print("hey")
+        print(request.form.get('xCoordCourt'), request.form.get('yCoordCourt'))
+        court.adress=request.form.get('inputCourtAddress')
+        court.name = request.form.get('inputCourtName')
+        court.total_courts = request.form.get('inputNumCourts')
+        court.total_visits = 0
+        court.lights = int(request.form.get('lightsRadios'))
+        court.membership_required= int(request.form.get('publicprivateRadios'))
+        court.description = request.form.get('inputCourtDescription')
+        court.latitude = request.form.get('xCoordCourt')
+        court.longitude = request.form.get('yCoordCourt')
+        print(court.latitude, court.longitude)
+        db.session.commit()
+        flash('Your court has been updated!', 'success')
+        return redirect(url_for('courts.list_courts'))
+    elif request.method == 'GET':
+        print("hey get")
+        court = Court.query.filter_by(id=id).first()
+        print(court, id, "test get")
+        return render_template('courts/UpdateCourt.html', court=court)
+
