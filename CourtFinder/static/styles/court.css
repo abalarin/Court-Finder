@@ -3,7 +3,12 @@
   margin-bottom: 15px;
 }
 
+.court-profile {
+  max-height: 300px;
+  min-width: 300px;
+}
 .img-responsive {
+  height: 100%;
   width: 100%;
 }
 
