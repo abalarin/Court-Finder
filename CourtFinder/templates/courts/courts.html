@@ -2,9 +2,10 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+
 <!-- Search Implementation (non-functional) -->
 <link rel="stylesheet" href="../static/styles/court.css">
-<h1 style="text-align:center">List of Courts near you</h1>
+<h1 style="text-align:center">Courts Near You!</h1>
 <button class="btn btn-primary" onclick="showFilter()">Filters</button>
 <div id="form" class="hidden">
   <form method="POST" action="">
@@ -29,30 +30,41 @@
     </div>
   </form>
 </div>
+
 <!-- Generate X listings -->
 {% for court in Courts %}
-<div class="court">
-  <hr width="75%">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3"><img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="img-responsive" alt="Some picture"></div>
-      <div class="col-md-9">
-          <h1>{{ court.name }}</h1>
-        <h6>{{ court.address }}</h6>
-        <p>Rating: N/A{{court.rating}}</p>
-        <p>Type: {{ court.membership_required }}</p>
-        <p>{{ court.description }}</p>
-        <a href="/UpdateCourt/{{court.id}}">
-        <button type="button" class="btn btn-primary">Update</button>
-        </a>
-        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">
-          Delete
-        </button>
+<div class="card court">
+  <div class="row card-body">
+    <div class="col text-center">
+      <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="img-responsive" alt="Some picture">
+    </div>
+    <div class="col-md-8">
+      <h1>{{ court.name }}</h1>
+      <h6>{{ court.address }}</h6>
+
+      <div class="row">
+        <div class="col-md-3">
+          <p>Rating: N/A{{court.rating}}</p>
+        </div>
+        <div class="col-md-6">
+          <p>Membership Required: {{ court.membership_required }}</p>
+        </div>
       </div>
+
+      <p>{{ court.description }}</p>
+
+      <a href="/UpdateCourt/{{court.id}}">
+        <button type="button" class="btn btn-primary">Update</button>
+      </a>
+
+      <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">
+        Delete
+      </button>
     </div>
   </div>
-
 </div>
+
+<!-- Delete Modal -->
 <div class="modal fade" id="DeleteCourt{{court.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -68,7 +80,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <a href="/DeleteCourt/{{court.id}}">
-        <button type="button" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-danger">Delete</button>
         </a>
       </div>
     </div>
@@ -92,7 +104,7 @@
 
 <!-- Footer -->
 <a href="/CreateCourt">
-<button type="button" class="btn btn-primary btn-lg btn-block">Create-a-Court</button>
+  <button type="button" class="btn btn-primary btn-lg btn-block">Create-a-Court</button>
 </a>
 {% include 'includes/footer.html' %}
 {% endblock %}

@@ -3,7 +3,11 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Court Finder</title>
+  <!-- Site Icon -->
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/basketball-icon.ico') }}">
 
   <!-- Home Made Styles  -->
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/global.css') }}">
@@ -29,7 +33,11 @@
 
   <!-- Map View -->
   <span class="metadata-marker" style="display: none;" data-region_tag="html-body"></span>
-  <div id="map"></div>
+  <div id="map-container">
+    <div id="map">
+
+    </div>
+  </div>
 
   <!-- Map Scripts -->
   <script type="text/javascript" src="static/scripts/map.js"></script>

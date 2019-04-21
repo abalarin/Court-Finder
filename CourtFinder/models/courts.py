@@ -15,3 +15,6 @@ class Court(db.Model):
 
     def __repr__(self):
         return '<Court %r>' % self.name
+
+# class CourtDetails(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)

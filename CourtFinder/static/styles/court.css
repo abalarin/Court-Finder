@@ -1,14 +1,10 @@
 .court {
-  border-width: 2px;
-  border-style: solid;
-  border-color: #000000;
-  border-radius: 16px;
-  padding: 20px 20px;
-  margin: 15px 0 15px 0;
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 
-.court hr {
-  width: 75%;
+.img-responsive {
+  width: 100%;
 }
 
 .lights-on {
