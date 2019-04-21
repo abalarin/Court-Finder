@@ -18,7 +18,7 @@ CourtFinder/endpoints/main/__init__.pyc
 CourtFinder/endpoints/courts/__pycache__
 CourtFinder/endpoints/courts/routes.pyc
 CourtFinder/endpoints/courts/__init__.pyc
-ourtFinder/endpoints/courts/forms.pyc
+CourtFinder/endpoints/courts/forms.pyc
 
 CourtFinder/endpoints/users/__pycache__
 CourtFinder/endpoints/users/routes.pyc

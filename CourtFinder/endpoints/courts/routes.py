@@ -45,7 +45,7 @@ def map_view():
 
     return render_template('courts/map.html', courts=json.dumps(courts))
 
-@courts.route('/createcourt', methods=['GET', 'POST'])
+@courts.route('/CreateCourt', methods=['GET', 'POST'])
 def createCourt():
      if request.method == 'GET':
          return render_template('courts/CreateCourt.html')
@@ -92,3 +92,12 @@ def updateCourt(id):
         print(court, id, "test get")
         return render_template('courts/UpdateCourt.html', court=court)
 
+@courts.route('/DeleteCourt/<id>', methods=['GET'])
+def deleteCourt(id):
+    if request.method == 'GET':
+        court = Court.query.filter_by(id=id).first()
+        print(court.id)
+        db.session.delete(court)
+        db.session.commit()
+        flash('Court has been deleted', 'success')
+        return redirect(url_for('courts.list_courts'))
