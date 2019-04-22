@@ -31,6 +31,10 @@ class CourtReview(db.Model):
     raiting = db.Column(db.Integer)
     review = db.Column(db.String(250))
 
+class CourtSchema(ma.Schema):
+    class Meta:
+        fields = ("address", "name", "total_courts", "total_visits", "lights", "membership_required", "description", "latitude", "longitude")
+
 
 class CourtReviewSchema(ma.Schema):
     class Meta:

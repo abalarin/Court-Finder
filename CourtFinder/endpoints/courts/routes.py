@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
 from flask_login import login_required, current_user
 
 from CourtFinder import db
@@ -74,7 +74,6 @@ def list_court(id):
 @courts.route("/map")
 def map_view():
     courts_query = Court.query.all()
-
     # This is a list comprehension - it works exactly the same as the for loop below. I went with the for loop for a better readability
 
     # courts = {court.id :{"name" : court.name, "latlng":{ "lat": float(court.latitude), "lng":float(court.longitude)}} for court in courts}
@@ -89,7 +88,7 @@ def map_view():
             }
         }
 
-    return render_template('courts/map.html', courts=json.dumps(courts))
+    return render_template('courts/map.html', courts=courts)
 
 
 @courts.route('/CreateCourt', methods=['GET', 'POST'])
