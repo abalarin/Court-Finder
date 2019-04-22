@@ -39,7 +39,6 @@ def list_court(id):
 
     elif request.method == 'POST':
         court = Court.query.filter_by(id=id).first()
-        reviews = CourtReview.query.filter_by(court_id=id)
 
         # Check if user is logged in before allowing to post to DB
         if not current_user.is_authenticated:
@@ -48,27 +47,29 @@ def list_court(id):
         # Make sure theres a review typed in
         if request.form.get('court_review') == '':
             flash("Please enter a review!", "danger")
-            return render_template('courts/courtProfile.html', Court=court, Reviews=reviews)
+            return redirect(url_for("courts.list_court", id=id))
 
         add_review = request.form.get('court_review')
 
-        court_review = CourtReview.query.filter_by(court_id=id).first()
         user = User.query.filter_by(id=current_user.get_id()).first()
+        court_review = CourtReview.query.filter_by(user_id=user.id).filter_by(court_id=id).first()
 
         # If a review doesnt exsist already make a new one
         if not court_review:
+            print("none entries")
             court_review = CourtReview(
                 court_id=id,
                 user_id=user.id,
                 username=user.username,
                 review=add_review)
         else:
+            print(" entries")
             court_review.review = add_review
 
         db.session.add(court_review)
         db.session.commit()
 
-        return render_template('courts/courtProfile.html', Court=court, Reviews=reviews)
+        return redirect(url_for("courts.list_court", id=id))
 
 
 @courts.route("/map")
