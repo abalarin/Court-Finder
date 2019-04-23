@@ -24,11 +24,11 @@ def login():
         return render_template('users/login.html')
 
     else:
-        email = request.form.get('email')
+        username = request.form.get('username')
         password_candidate = request.form.get('password')
 
         # Query for a user with the provided username
-        result = User.query.filter_by(email=email).first()
+        result = User.query.filter_by(username=username).first()
 
         # If a user exsists and passwords match - login
         if result is not None and sha256_crypt.verify(password_candidate, result.password):

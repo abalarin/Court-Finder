@@ -4,10 +4,18 @@
 <!-- everything wrapped in this "block" will be loaded into the "layout" template -->
 {% block content %}
 
-<div class="">
-  <h1>This is the Flask App!</h1>
-  <p>We's gonna make a bball court finder hey</p>
-</div>
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1 class="jumbotron-heading">Find Some Pickup Games</h1>
+    <p class="lead text-muted">
+      With our application you will never have to drive around you neigborhood looking for pickup games! Just join exsisting games or create a local game...
+    </p>
+    <p>
+      <a href="/courts" class="btn btn-primary my-2">View Courts</a>
+      <a href="/map" class="btn btn-secondary my-2">View Map</a>
+    </p>
+  </div>
+</section>
 
 
 {% endblock %}

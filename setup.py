@@ -6,6 +6,7 @@ setup(
     install_requires=[
         'flask',
         'flask_sqlalchemy',
+        'flask-marshmallow',
         'flask-security',
         'mysqlclient',
         'googlemaps',
