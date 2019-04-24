@@ -1,13 +1,15 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify
+from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, send_from_directory
 from flask_login import login_required, current_user
 
 from CourtFinder import db
 from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.models.users import User
 
+from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator
 from CourtFinder.endpoints.courts.forms import CourtSearch
 
 import json
+import uuid
 
 courts = Blueprint('courts', __name__)
 
@@ -17,8 +19,13 @@ def list_courts():
     form = CourtSearch()
 
     if request.method == 'GET':
-        court = Court.query.all()
-        return render_template('courts/courts.html', Courts=court, form=form)
+        courts = Court.query.all()
+
+        # Get images for each listing
+        for court in courts:
+            court.images = get_images(str(court.id))
+
+        return render_template('courts/courts.html', Courts=courts, form=form)
 
     else:
         tpe = form.type.data
@@ -29,10 +36,17 @@ def list_courts():
         return render_template('courts/courts.html', Courts=court, form=form)
 
 
+@courts.route('/images/<id>/<filename>')
+def get_image(id, filename):
+    return send_from_directory('static/images/courts/', id + '/' + filename)
+
+
 @courts.route('/court/<id>', methods=['GET', 'POST'])
 def list_court(id):
     if request.method == 'GET':
         court = Court.query.filter_by(id=id).first()
+        court.images = get_images(str(court.id))
+
         reviews = CourtReview.query.filter_by(court_id=id)
 
         return render_template('courts/courtProfile.html', Court=court, Reviews=reviews)
@@ -93,12 +107,17 @@ def map_view():
 
 
 @courts.route('/CreateCourt', methods=['GET', 'POST'])
-def createCourt():
+def create_court():
     if request.method == 'GET':
         return render_template('courts/CreateCourt.html')
 
     elif request.method == 'POST':
+
+        # Make a unique listing ID
+        uid = str(id_validator(uuid.uuid4()))
+
         court = Court(
+            uid=uid,
             address=request.form.get('inputCourtAddress'),
             name=request.form.get('inputCourtName'),
             total_courts=request.form.get('inputNumCourts'),
@@ -108,15 +127,20 @@ def createCourt():
             description=request.form.get('inputCourtDescription'),
             latitude=request.form.get('xCoordCourt'),
             longitude=request.form.get('yCoordCourt'))
+
         db.session.add(court)
         db.session.commit()
+
+        # Upload Images
+        court = Court.query.filter_by(uid=uid).first()
+        upload_images(request.files.getlist("court_images"), court.id)
 
         flash('Court Created!', 'success')
         return redirect(url_for('courts.list_courts'))
 
 
 @courts.route('/UpdateCourt/<id>', methods=['GET', 'POST'])
-def updateCourt(id):
+def update_court(id):
     if request.method == 'POST':
         court = Court.query.filter_by(id=id).first()
 
@@ -130,6 +154,9 @@ def updateCourt(id):
         court.latitude = request.form.get('xCoordCourt')
         court.longitude = request.form.get('yCoordCourt')
 
+        # Upload Images
+        upload_images(request.files.getlist("court_images"), id)
+
         db.session.commit()
         flash('Your court has been updated!', 'success')
         return redirect(url_for('courts.list_courts'))
@@ -141,7 +168,7 @@ def updateCourt(id):
 
 
 @courts.route('/DeleteCourt/<id>', methods=['GET'])
-def deleteCourt(id):
+def delete_court(id):
     if request.method == 'GET':
         court = Court.query.filter_by(id=id).first()
 

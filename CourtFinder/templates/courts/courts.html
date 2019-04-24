@@ -39,7 +39,8 @@
   <div class="row">
 
     <div class="col-md-4 court-profile">
-      <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="img-responsive" alt="Some picture">
+      <img class="img-responsive" src="{{url_for('courts.get_image', id=court.id, filename=court.images[0])}}" onerror="this.onerror=null;this.src='/static/images/nocourtimage.jpg';">
+
     </div>
 
     <div class="col-md">
