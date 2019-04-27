@@ -5,6 +5,7 @@ from passlib.hash import sha256_crypt
 from CourtFinder import db
 from CourtFinder.models.users import User
 from CourtFinder.endpoints.users.forms import RegistrationForm
+from CourtFinder.endpoints.users.utils import user_exsists
 
 users = Blueprint('users', __name__)
 
@@ -80,16 +81,3 @@ def register():
             return render_template('users/profile.html', user=new_user)
 
     return render_template('users/register.html', form=form)
-
-# Check if username or email are already taken
-
-
-def user_exsists(username, email):
-    # Get all Users in SQL
-    users = User.query.all()
-    for user in users:
-        if username == user.username or email == user.email:
-            return True
-
-    # No matching user
-    return False

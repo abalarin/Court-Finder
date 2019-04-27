@@ -3,6 +3,7 @@ from CourtFinder import db, ma
 
 class Court(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    uid = db.Column(db.String(255), unique=True, nullable=False)
     address = db.Column(db.String(60), nullable=False)
     name = db.Column(db.String(20), nullable=False)
     total_courts = db.Column(db.Integer, default=1)
@@ -33,7 +34,7 @@ class CourtReview(db.Model):
 
 class CourtSchema(ma.Schema):
     class Meta:
-        fields = ("address", "name", "total_courts", "total_visits", "lights", "membership_required", "description", "latitude", "longitude")
+        fields = ("uid", "address", "name", "total_courts", "total_visits", "lights", "membership_required", "description", "latitude", "longitude")
 
 
 class CourtReviewSchema(ma.Schema):

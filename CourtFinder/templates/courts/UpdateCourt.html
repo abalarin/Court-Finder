@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
 
   <div class="form-group row">
     <label for="inputCourtName" class="col-sm-2 col-form-label">Court Name</label>
@@ -37,7 +37,17 @@
     <label for="exampleFormControlTextarea1">Court Description</label>
     <textarea class="form-control" name="inputCourtDescription" rows="3">{{court.description}}</textarea>
   </div>
-  {% if court.membership_required  %}
+
+  <!-- Upload Pictures  -->
+  <div class="form-group">
+    <label>Court Pictures</label>
+    <div class="custom-file">
+      <input type="file" class="custom-file-input" name="court_images" accept="image/*" multiple>
+      <label class="custom-file-label" for="custom-file">Choose Pictures</label>
+    </div>
+  </div>
+
+  {% if court.membership_required %}
   <fieldset class="form-group">
     <div class="row">
       <div class="col-sm-10">

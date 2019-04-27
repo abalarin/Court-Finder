@@ -65,3 +65,18 @@
   font-size: 12px;
   color: #777;
 }
+
+.wrapper {
+    display: flex;
+    align-items: center;
+}
+
+/* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 922px) {
+  .content #header {
+    font-size: 2em;
+  }
+  #index-signup {
+    display: none;
+  }
+}

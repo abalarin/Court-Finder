@@ -3,17 +3,88 @@
 
 <!-- everything wrapped in this "block" will be loaded into the "layout" template -->
 {% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='styles/login.css') }}">
 
-<section class="jumbotron text-center">
+
+<section class="jumbotron">
   <div class="container">
-    <h1 class="jumbotron-heading">Find Some Pickup Games</h1>
-    <p class="lead text-muted">
-      With our application you will never have to drive around you neigborhood looking for pickup games! Just join exsisting games or create a local game...
-    </p>
-    <p>
-      <a href="/courts" class="btn btn-primary my-2">View Courts</a>
-      <a href="/map" class="btn btn-secondary my-2">View Map</a>
-    </p>
+    <div class="row wrapper">
+      <div class="col">
+        <div>
+
+          <h1 class="jumbotron-heading">Find Some Pickup Games</h1>
+          <p class="lead text-muted">
+            With our application you will never have to drive around you neigborhood looking for pickup games! Just join exsisting games or create a local game...
+          </p>
+          <p>
+            <a href="/courts" class="btn btn-primary my-2">View Courts</a>
+            <a href="/map" class="btn btn-secondary my-2">View Map</a>
+          </p>
+        </div>
+      </div>
+      <div class="col card" id="index-signup">
+        <form class="form-signin" method="POST">
+          {{ form.hidden_tag()}}
+          <div class="text-center mb-4">
+            <img class="mb-4" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
+          </div>
+
+          <div class="form-label-group">
+            {{form.username(id="inputUsername", class="form-control", placeholder="Username")}}
+            {{form.username.label(for="inputUsername")}}
+          </div>
+
+          <div class="form-label-group">
+            {% if form.email.errors %}
+            {{ form.email(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.email.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{form.email(id="inputEmail", class="form-control", placeholder="Email")}}
+            {% endif %}
+            {{form.email.label(for="inputEmail")}}
+
+          </div>
+
+          <div class="form-label-group">
+            {% if form.password.errors %}
+            {{ form.password(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.password.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{form.password(id="inputPassword", class="form-control", placeholder="Password")}}
+            {% endif %}
+            {{form.password.label(for="inputPassword")}}
+          </div>
+
+          <div class="form-label-group">
+            {% if form.confirm_password.errors %}
+            {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.confirm_password.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %}
+            {{form.confirm_password(id="confirmPassword", class="form-control", placeholder="Password")}}
+            {% endif %}
+            {{form.confirm_password.label(for="confirmPassword")}}
+          </div>
+
+          {{ form.submit(class="btn btn-lg btn-primary btn-block") }}
+        </form>
+        {% include 'includes/footer.html' %}
+
+      </div>
+
+    </div>
   </div>
 </section>
 

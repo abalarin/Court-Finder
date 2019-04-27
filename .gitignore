@@ -13,3 +13,5 @@ __pycache__
 
 /tests
 /.pytest_cache
+
+CourtFinder/static/images/courts
