@@ -15,7 +15,6 @@ def profile():
     if current_user.is_authenticated:
         return render_template("users/profile.html", user=current_user)
     else:
-        print(current_user)
         return render_template('users/login.html')
 
 
