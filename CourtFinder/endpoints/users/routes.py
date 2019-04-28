@@ -105,9 +105,13 @@ def updateProfile(id):
         if not check_username(request.form.get('inputUserName')):
             user.username=request.form.get('inputUserName')
             db.session.commit()
+        else:
+            flash('Username was taken, Username was not changed', 'danger')
         if not check_email(request.form.get('inputEmail')):
             user.email = request.form.get('inputEmail')
             db.session.commit()
+        else:
+            flash('Email was taken, Email was not changed', 'danger')
         flash('Profile has been updated!', 'success')
         return render_template('users/profile.html', user=user)
 
