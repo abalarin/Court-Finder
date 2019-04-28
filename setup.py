@@ -7,6 +7,7 @@ setup(
         'flask',
         'flask_sqlalchemy',
         'flask-marshmallow',
+        'marshmallow-sqlalchemy',
         'flask-security',
         'mysqlclient',
         'googlemaps',
