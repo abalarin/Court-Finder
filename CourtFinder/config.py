@@ -13,3 +13,6 @@ class Config:
 
     # Gets pwd and declares it is the root dir for the App
     APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+    # To suppress FSADeprecationWarning
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
