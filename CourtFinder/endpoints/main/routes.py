@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
-from flask_login import login_user
+from flask_login import login_user, current_user
 from passlib.hash import sha256_crypt
 
 from CourtFinder import db
@@ -37,7 +37,11 @@ def index():
 
             return render_template('users/profile.html', user=new_user)
 
-    return render_template('index.html', form=form)
+    # -- is a GET request --
+    if current_user.is_authenticated:
+        return redirect(url_for('users.profile'))
+    else:
+        return render_template('index.html', form=form)
 
 
 @main.app_errorhandler(401)
