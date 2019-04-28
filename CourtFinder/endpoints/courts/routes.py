@@ -70,14 +70,12 @@ def list_court(id):
 
         # If a review doesnt exsist already make a new one
         if not court_review:
-            print("none entries")
             court_review = CourtReview(
                 court_id=id,
                 user_id=user.id,
                 username=user.username,
                 review=add_review)
         else:
-            print(" entries")
             court_review.review = add_review
 
         db.session.add(court_review)
