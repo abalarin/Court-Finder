@@ -1,0 +1,132 @@
+  {% extends 'layout.html' %}
+
+  {% block content %}
+  <form method="POST">
+
+    <div class="form-group row">
+      <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" name="inputEmail" value='{{user.email}}'>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputUserName" class="col-sm-2 col-form-label">Username</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="inputUserName" value='{{user.username}}'>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword" class="col-sm-2 col-form-label">New Password</label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control" name="inputPassword">
+      </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputConfirmPassword" class="col-sm-2 col-form-label">Confirm Password</label>
+        <div class="col-sm-10">
+          <input type="password" class="form-control" name="inputConfirmPassword">
+        </div>
+        </div>
+    <div class="form-group row">
+      <label for="inputFirstName" class="col-sm-2 col-form-label">First Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="inputFirstName" value='{{user.first_name}}'>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputLastName" class="col-sm-2 col-form-label">Last Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="inputLastName" value='{{user.last_name}}'>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputHeight" class="col-sm-2 col-form-label">Height (ex. 6'1 = 6.1)</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="inputHeight" value='{{user.height}}'>
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputWeight" class="col-sm-2 col-form-label">Weight</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" name="inputWeight" value='{{user.weight}}'>
+      </div>
+    </div>
+    {% if user.skill_level == 1 %}
+  <div class="form-group">
+    <label for="inputSkillLevel">Skill Level</label>
+    <select class="form-control" name="inputSkillLevel">
+      <option value='1' selected>1</option>
+      <option value='2'>2</option>
+      <option value='3'>3</option>
+      <option value='4'>4</option>
+      <option value='5'>5</option>
+    </select>
+  </div>
+  {% elif user.skill_level == 2 %}
+  <div class="form-group">
+    <label for="inputSkillLevel">Skill Level</label>
+    <select class="form-control" name="inputSkillLevel">
+      <option value='1'>1</option>
+      <option value='2' selected>2</option>
+      <option value='3'>3</option>
+      <option value='4'>4</option>
+      <option value='5'>5</option>
+    </select>
+  </div>
+{% elif user.skill_level == 3 %}
+<div class="form-group">
+  <label for="inputSkillLevel">Skill Level</label>
+  <select class="form-control" name="inputSkillLevel">
+    <option value='1'>1</option>
+    <option value='2'>2</option>
+    <option value='3'selected>3</option>
+    <option value='4'>4</option>
+    <option value='5'>5</option>
+  </select>
+</div>
+{% elif user.skill_level == 4 %}
+<div class="form-group">
+  <label for="inputSkillLevel">Skill Level</label>
+  <select class="form-control" name="inputSkillLevel">
+    <option value='1'>1</option>
+    <option value='2'>2</option>
+    <option value='3'>3</option>
+    <option value='4' selected>4</option>
+    <option value='5'>5</option>
+  </select>
+</div>
+{% elif user.skill_level == 5 %}
+<div class="form-group">
+  <label for="inputSkillLevel">Skill Level</label>
+  <select class="form-control" name="inputSkillLevel">
+    <option value='1'>1</option>
+    <option value='2'>2</option>
+    <option value='3'>3</option>
+    <option value='4'>4</option>
+    <option value='5' selected>5</option>
+  </select>
+</div>
+{% else %}
+<div class="form-group">
+  <label for="inputSkillLevel">Skill Level</label>
+  <select class="form-control" name="inputSkillLevel">
+    <option value='1'>1</option>
+    <option value='2'>2</option>
+    <option value='3'>3</option>
+    <option value='4'>4</option>
+    <option value='5'>5</option>
+  </select>
+</div>
+{% endif %}
+
+
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+  </div>
+</form>
+
+
+
+{% endblock %}

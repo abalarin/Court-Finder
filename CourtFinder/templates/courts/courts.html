@@ -42,7 +42,7 @@
         <p>Rating: N/A{{court.rating}}</p>
         <p>Type: {{ court.membership_required }}</p>
         <p>{{ court.description }}</p>
-        <a href="/UpdateCourt/{{court.id}}">
+        <a href="/UpdateCourt/{{court.id}}" class="court-buttons">
         <button type="button" class="btn btn-primary">Update</button>
         </a>
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">

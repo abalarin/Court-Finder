@@ -81,6 +81,49 @@ def register():
 
     return render_template('users/register.html', form=form)
 
+
+@users.route('/UpdateProfile/<id>', methods=['GET','POST'])
+def updateProfile(id):
+    if request.method == 'POST':
+        user = User.query.filter_by(id=id).first()
+        user.first_name = request.form.get('inputFirstName')
+        user.last_name = request.form.get('inputLastName')
+        user.favorite_court = request.form.get('inputFavoriteCourt')
+        user.height = request.form.get('inputHeight')
+        user.weight = request.form.get('inputWeight')
+        user.skill_level = request.form.get('inputSkillLevel')
+        db.session.commit()
+        if request.form.get('inputPassword') == None:
+            flash('Password wasnt changed', 'danger')
+        if request.form.get('inputPassword') == request.form.get('inputConfirmPassword'):
+            user.password = request.form.get('inputPassword')
+            db.session.commit()
+        else:
+            flash('Passwords dont match', 'danger')
+
+        if not check_username(request.form.get('inputUserName')):
+            user.username=request.form.get('inputUserName')
+            db.session.commit()
+        if not check_email(request.form.get('inputEmail')):
+            user.email = request.form.get('inputEmail')
+            db.session.commit()
+        flash('Profile has been updated!', 'success')
+        return render_template('users/profile.html', user=user)
+
+    elif request.method == 'GET':
+        user = User.query.filter_by(id=id).first()
+        return render_template('users/UpdateProfile.html', user=user)
+
+@users.route('/DeleteUser/<id>', methods=['GET'])
+def deleteUser(id):
+    if request.method == 'GET':
+        user = User.query.filter_by(id=id).first()
+        db.session.delete(user)
+        db.session.commit()
+        flash('User has been deleted', 'success')
+        return render_template('/index.html')
+
+
 # Check if username or email are already taken
 
 
@@ -92,4 +135,22 @@ def user_exsists(username, email):
             return True
 
     # No matching user
+    return False
+
+
+def check_username(username):
+    users=User.query.all()
+    for user in users:
+        if username == user.username:
+            return True
+
+    return False
+
+
+def check_email(email):
+    users=User.query.all()
+    for user in users:
+        if email == user.email:
+            return True
+
     return False
