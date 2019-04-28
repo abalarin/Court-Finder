@@ -17,8 +17,23 @@
         <a class="nav-link" href="/courts">Courts</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link">|</a>
+      </li>
+      {% if current_user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="/profile"><i class="fas fa-user-circle"></i></a>
       </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+      {% endif %}
     </ul>
   </div>
 </nav>
