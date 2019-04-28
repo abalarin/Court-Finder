@@ -9,3 +9,11 @@
   margin-top: 50px;
   margin-bottom: 30px;
 }
+
+.court-carousel-item{
+  height: 300px;
+}
+
+.court-carousel-item img{
+  height: 100%;
+}

@@ -44,16 +44,16 @@
       <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
 
         <div class="carousel-inner">
-          {% if Court.images|length  %}
-            {% for image in Court.images %}
-            <div class="carousel-item item{% if loop.index == 1 %} active{% endif %}">
-              <img class="d-block w-100 carousel-img" src="{{url_for('courts.get_image', id=Court.id, filename=image)}}">
-            </div>
-            {% endfor %}
+          {% if Court.images|length %}
+          {% for image in Court.images %}
+          <div class="carousel-item court-carousel-item item{% if loop.index == 1 %} active{% endif %}">
+            <img class="d-block w-100 carousel-img" src="{{url_for('courts.get_image', id=Court.id, filename=image)}}">
+          </div>
+          {% endfor %}
           {% else %}
-            <div class="carousel-item active">
-              <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="d-block w-100" alt="...">
-            </div>
+          <div class="carousel-item active">
+            <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="d-block w-100" alt="...">
+          </div>
           {% endif %}
         </div>
 
@@ -66,7 +66,7 @@
           <span class="sr-only">Next</span>
         </a>
       </div>
-      <!-- <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="img-responsive" alt="Some picture"> -->
+
     </div>
 
     <div class="col-md">
