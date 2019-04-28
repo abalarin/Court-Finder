@@ -1,0 +1,116 @@
+<!--render layout template -->
+{% extends 'layout.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="/static/styles/courtProfile.css">
+
+<div id="googleMap" style="width:100%;height:400px;"></div>
+
+<script>
+  function myMap() {
+
+    var mapProp = {
+      center:new google.maps.LatLng({{Court.latitude}},{{Court.longitude}}),
+      zoom:14,
+    };
+    var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+    var marker = new google.maps.Marker({
+      map: map,
+      position: new google.maps.LatLng({{Court.latitude}},{{Court.longitude}}),
+      map: map,
+      title:"Hello World!"
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+    var contentString =
+      '<div id="content">'+
+      '<h1 id="firstHeading" class="firstHeading">{{Court.name}}</h1>'+
+      '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+  }
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Sr3oT1HlWBky0ex_akZc-uuNUWy51E8&callback=myMap">
+</script>
+
+<div class="court-container">
+  <div class="row">
+
+    <div class="col-md-4">
+      <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner">
+          {% if Court.images|length  %}
+            {% for image in Court.images %}
+            <div class="carousel-item item{% if loop.index == 1 %} active{% endif %}">
+              <img class="d-block w-100 carousel-img" src="{{url_for('courts.get_image', id=Court.id, filename=image)}}">
+            </div>
+            {% endfor %}
+          {% else %}
+            <div class="carousel-item active">
+              <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="d-block w-100" alt="...">
+            </div>
+          {% endif %}
+        </div>
+
+        <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
+      <!-- <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="img-responsive" alt="Some picture"> -->
+    </div>
+
+    <div class="col-md">
+      <div class="card-body">
+        <h1>{{ Court.name }}</h1>
+        <h6>{{ Court.address }}</h6>
+
+        <div class="row">
+          <div class="col-md-3">
+            <p>Rating: N/A{{Court.rating}}</p>
+          </div>
+          <div class="col-md-6">
+            <p>Membership Required: {{ Court.membership_required }}</p>
+          </div>
+        </div>
+
+        <p>{{ Court.description }}</p>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- View Reviews -->
+<div class="review-container">
+  <h2 class="text-center"> Court Reviews </h2>
+  {% for review in Reviews %}
+  <hr>
+  <h2>{{review.username}} <span class="text-muted">wrote:</span></h2>
+  <p>{{review.review}}</p>
+  {% endfor %}
+</div>
+
+<div class="add-review">
+  <form method="POST">
+    <div class="form-group">
+      <h2 class="text-center"> Add Review</h2>
+      <textarea class="form-control" name="court_review" rows="3"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+  </form>
+</div>
+
+
+{% endblock %}

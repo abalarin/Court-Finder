@@ -7,7 +7,7 @@
   <form class="form-signin" method="POST">
     {{ form.hidden_tag()}}
     <div class="text-center mb-4">
-      <img class="mb-4" src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="" width="72" height="72">
+      <img class="mb-4" src="{{ url_for('static', filename='images/basketball_logo.jpg') }}" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Registration</h1>
     </div>
 

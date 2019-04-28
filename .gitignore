@@ -6,27 +6,12 @@ CourtFinder/config.pyc
 CourtFinder.egg-info
 *.xml
 *.iml
-CourtFinder/__init__.pyc
-CourtFinder/__pycache__
-CourtFinder/endpoints/__init__.pyc
-CourtFinder/endpoints/__pycache__
+*.pyc
 
-CourtFinder/endpoints/main/__pycache__
-CourtFinder/endpoints/main/routes.pyc
-CourtFinder/endpoints/main/__init__.pyc
+__pycache__
+/__pycache__
 
-CourtFinder/endpoints/courts/__pycache__
-CourtFinder/endpoints/courts/routes.pyc
-CourtFinder/endpoints/courts/__init__.pyc
-CourtFinder/endpoints/courts/forms.pyc
+/tests
+/.pytest_cache
 
-CourtFinder/endpoints/users/__pycache__
-CourtFinder/endpoints/users/routes.pyc
-CourtFinder/endpoints/users/__init__.pyc
-CourtFinder/endpoints/users/forms.pyc
-
-
-CourtFinder/models/__pycache__
-CourtFinder/models/__init__.pyc
-CourtFinder/models/courts.pyc
-CourtFinder/models/users.pyc
+CourtFinder/static/images/courts

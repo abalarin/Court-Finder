@@ -1,7 +1,19 @@
 /* Always set the map height explicitly to define the size of the div
  * element that contains the map. */
-#map {
+#map-container {
+  position: fixed;
+  top: 50px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+#googleMap {
   height: 100%;
+}
+
+.navbar {
+  z-index: 1;
 }
 
 /* Optional: Makes the sample page fill the window. */

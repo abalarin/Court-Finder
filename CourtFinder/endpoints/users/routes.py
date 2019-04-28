@@ -5,6 +5,7 @@ from passlib.hash import sha256_crypt
 from CourtFinder import db
 from CourtFinder.models.users import User
 from CourtFinder.endpoints.users.forms import RegistrationForm
+from CourtFinder.endpoints.users.utils import user_exsists
 
 users = Blueprint('users', __name__)
 
@@ -14,7 +15,6 @@ def profile():
     if current_user.is_authenticated:
         return render_template("users/profile.html", user=current_user)
     else:
-        print(current_user)
         return render_template('users/login.html')
 
 
@@ -24,11 +24,11 @@ def login():
         return render_template('users/login.html')
 
     else:
-        email = request.form.get('email')
+        username = request.form.get('username')
         password_candidate = request.form.get('password')
 
         # Query for a user with the provided username
-        result = User.query.filter_by(email=email).first()
+        result = User.query.filter_by(username=username).first()
 
         # If a user exsists and passwords match - login
         if result is not None and sha256_crypt.verify(password_candidate, result.password):
@@ -80,6 +80,7 @@ def register():
             return render_template('users/profile.html', user=new_user)
 
     return render_template('users/register.html', form=form)
+<<<<<<< HEAD
 
 
 @users.route('/UpdateProfile/<id>', methods=['GET','POST'])
@@ -154,3 +155,5 @@ def check_email(email):
             return True
 
     return False
+=======
+>>>>>>> 61f61d4034176a40a003c2c14faec34b8651ec51

@@ -2,9 +2,10 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+
 <!-- Search Implementation (non-functional) -->
-<link rel="stylesheet" href="../static/styles/court.css">
-<h1 style="text-align:center">List of Courts near you</h1>
+<link rel="stylesheet" href="/static/styles/court.css">
+<h1 style="text-align:center">Courts Near You!</h1>
 <button class="btn btn-primary" onclick="showFilter()">Filters</button>
 <div id="form" class="hidden">
   <form method="POST" action="">
@@ -29,30 +30,59 @@
     </div>
   </form>
 </div>
+
 <!-- Generate X listings -->
 {% for court in Courts %}
-<div class="court">
-  <hr width="75%">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-3"><img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="img-responsive" alt="Some picture"></div>
-      <div class="col-md-9">
+
+<!-- Court Card -->
+<div class="card court">
+  <div class="row">
+
+    <div class="col-md-4 court-profile">
+      <img class="img-responsive" src="{{url_for('courts.get_image', id=court.id, filename=court.images[0])}}" onerror="this.onerror=null;this.src='/static/images/nocourtimage.jpg';">
+
+    </div>
+
+    <div class="col-md">
+      <div class="card-body">
+        <a href="/court/{{court.id}}">
           <h1>{{ court.name }}</h1>
+        </a>
         <h6>{{ court.address }}</h6>
-        <p>Rating: N/A{{court.rating}}</p>
-        <p>Type: {{ court.membership_required }}</p>
+
+        <div class="row">
+          <div class="col-md-3">
+            <p>Rating: N/A{{court.rating}}</p>
+          </div>
+          <div class="col-md-6">
+            <p>Membership Required: {{ court.membership_required }}</p>
+          </div>
+        </div>
+
         <p>{{ court.description }}</p>
+<<<<<<< HEAD
         <a href="/UpdateCourt/{{court.id}}" class="court-buttons">
         <button type="button" class="btn btn-primary">Update</button>
+=======
+
+        {% if current_user.is_authenticated %}
+        <a href="/UpdateCourt/{{court.id}}">
+          <button type="button" class="btn btn-primary">Update</button>
+>>>>>>> 61f61d4034176a40a003c2c14faec34b8651ec51
         </a>
+
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">
           Delete
         </button>
+        {% endif %}
       </div>
     </div>
-  </div>
 
+  </div>
 </div>
+<!-- Court Card -->
+
+<!-- Court Delete Modal -->
 <div class="modal fade" id="DeleteCourt{{court.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -68,7 +98,7 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <a href="/DeleteCourt/{{court.id}}">
-        <button type="button" class="btn btn-danger">Delete</button>
+          <button type="button" class="btn btn-danger">Delete</button>
         </a>
       </div>
     </div>
@@ -91,8 +121,10 @@
 
 
 <!-- Footer -->
+{% if current_user.is_authenticated %}
 <a href="/CreateCourt">
-<button type="button" class="btn btn-primary btn-lg btn-block">Create-a-Court</button>
+  <button type="button" class="btn btn-primary btn-lg btn-block">Create-a-Court</button>
 </a>
-{% include 'includes/footer.html' %}
+{% endif %}
+
 {% endblock %}

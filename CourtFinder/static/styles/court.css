@@ -1,4 +1,5 @@
 .court {
+<<<<<<< HEAD
   border-width: 2px;
   border-style: solid;
   border-color: #000000;
@@ -11,6 +12,19 @@
 .court hr {
   width: 75%;
 
+=======
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.court-profile {
+  max-height: 300px;
+  min-width: 300px;
+}
+.img-responsive {
+  height: 100%;
+  width: 100%;
+>>>>>>> 61f61d4034176a40a003c2c14faec34b8651ec51
 }
 
 .lights-on {
