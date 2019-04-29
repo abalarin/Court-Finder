@@ -5,7 +5,7 @@ from passlib.hash import sha256_crypt
 from CourtFinder import db
 from CourtFinder.models.users import User
 from CourtFinder.endpoints.users.forms import RegistrationForm
-from CourtFinder.endpoints.users.utils import user_exsists
+from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
 
 users = Blueprint('users', __name__)
 
@@ -94,13 +94,14 @@ def updateProfile(id):
         user.weight = request.form.get('inputWeight')
         user.skill_level = request.form.get('inputSkillLevel')
         db.session.commit()
-        if request.form.get('inputPassword') == None:
-            flash('Password wasnt changed', 'danger')
-        if request.form.get('inputPassword') == request.form.get('inputConfirmPassword'):
-            user.password = request.form.get('inputPassword')
-            db.session.commit()
-        else:
-            flash('Passwords dont match', 'danger')
+    if reguest.form.get('inputPassword') == None and request.form.get('inputConfirmPassword') == None:
+        flash('Password was not changed', 'danger')
+    elif request.form.get('inputPassword') == request.form.get('inputConfirmPassword'):
+        hashed_pass = sha256_crypt.encrypt(str(request.form.get('inputPassword')))
+        user.password= hashed_pass
+        db.session.commit()
+    else:
+        flash('Passwords dont match', 'danger')
 
         if not check_username(request.form.get('inputUserName')):
             user.username=request.form.get('inputUserName')
@@ -132,32 +133,6 @@ def deleteUser(id):
 # Check if username or email are already taken
 
 
-def user_exsists(username, email):
-    # Get all Users in SQL
-    users = User.query.all()
-    for user in users:
-        if username == user.username or email == user.email:
-            return True
 
-    # No matching user
-    return False
-
-
-def check_username(username):
-    users=User.query.all()
-    for user in users:
-        if username == user.username:
-            return True
-
-    return False
-
-
-def check_email(email):
-    users=User.query.all()
-    for user in users:
-        if email == user.email:
-            return True
-
-    return False
 =======
 >>>>>>> 61f61d4034176a40a003c2c14faec34b8651ec51

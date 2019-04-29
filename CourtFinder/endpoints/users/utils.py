@@ -10,3 +10,20 @@ def user_exsists(username, email):
 
     # No matching user
     return False
+
+def check_username(username):
+    users=User.query.all()
+    for user in users:
+        if username == user.username:
+            return True
+
+    return False
+
+
+def check_email(email):
+    users=User.query.all()
+    for user in users:
+        if email == user.email:
+            return True
+
+    return False
