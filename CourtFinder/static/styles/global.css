@@ -1,9 +1,26 @@
 ul {
-   list-style-type: none;
+  list-style-type: none;
 }
+
 h1 {
-    color: red;
+  color: red;
 }
+
 .body {
-  margin-top: 30px
+  margin-top: 60px;
+  margin-bottom: 90px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+.navbar {
+  z-index: 100
+}
+@media only screen and (max-width: 900px) {
+  /* For mobile phones: */
+  .not-mobile-divider a span{
+    display: none;
+  }
 }
