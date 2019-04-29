@@ -60,10 +60,15 @@
         </div>
 
         <p>{{ court.description }}</p>
+<<<<<<< HEAD
+        <a href="/UpdateCourt/{{court.id}}" class="court-buttons">
+        <button type="button" class="btn btn-primary">Update</button>
+=======
 
         {% if current_user.is_authenticated %}
         <a href="/UpdateCourt/{{court.id}}">
           <button type="button" class="btn btn-primary">Update</button>
+>>>>>>> 61f61d4034176a40a003c2c14faec34b8651ec51
         </a>
 
         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">

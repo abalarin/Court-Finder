@@ -1,4 +1,18 @@
 .court {
+<<<<<<< HEAD
+  border-width: 2px;
+  border-style: solid;
+  border-color: #000000;
+  border-radius: 16px;
+  padding: 20px 20px;
+  margin: 15px 0 15px 0;
+
+}
+
+.court hr {
+  width: 75%;
+
+=======
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -10,19 +24,27 @@
 .img-responsive {
   height: 100%;
   width: 100%;
+>>>>>>> 61f61d4034176a40a003c2c14faec34b8651ec51
 }
 
 .lights-on {
   border-width: 2px;
   border-style: solid;
   border-color: yellow;
+
 }
 
 .lights-off {
   border-width: 2px;
   border-style: solid;
   border-color: #002c75;
+
 }
 .hidden {
     display: none;
+
+}
+
+.court-buttons{
+  text-decoration: none;
 }

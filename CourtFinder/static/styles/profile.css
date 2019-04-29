@@ -45,6 +45,16 @@ html, body {
   text-align: center;
 }
 
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: red;
+  color: white;
+  text-align: center;
+
+}
 
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (max-width: 922px) {
