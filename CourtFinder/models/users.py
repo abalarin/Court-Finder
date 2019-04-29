@@ -19,7 +19,6 @@ class User(db.Model, UserMixin):
     weight = db.Column(db.Integer)
     court_visits = db.Column(db.Integer)
     skill_level = db.Column(db.Integer)
-    #preferred_postion = db.Column(db.String(2))
     admin = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
