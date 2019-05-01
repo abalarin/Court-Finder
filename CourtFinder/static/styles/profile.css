@@ -45,6 +45,11 @@ html, body {
   text-align: center;
 }
 
+.profilebuttons{
+  position:absolute;
+  bottom:0;
+}
+
 
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (max-width: 922px) {
