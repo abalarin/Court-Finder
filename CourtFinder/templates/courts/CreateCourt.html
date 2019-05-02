@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZmCypbix1jrl8_kfNc8SfTEHhZzVoIfk&libraries=places"></script>
+<script src="{{ url_for('static', filename='scripts/autocomplete.js') }}"></script>
+<script>window.onload=initialize</script>
 <form method="POST" enctype="multipart/form-data">
 
   <div class="form-group row">
@@ -10,21 +13,21 @@
     </div>
   </div>
   <div class="form-group row">
-    <label for="inputCourtAddress" class="col-sm-2 col-form-label">Court Address</label>
+    <label for="inputCourtAddress" class="col-sm-2 col-form-label" >Court Address</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="inputCourtAddress" placeholder="Court Address">
+      <input type="text" class="form-control" name="inputCourtAddress" placeholder="Court Address" id="address-input" onFocus="geolocate()">
     </div>
   </div>
   <div class="form-group row">
-    <label for="xCoordCourt" class="col-sm-2 col-form-label">Court Latitude</label>
+    <label for="xCoordCourt" class="col-sm-2 col-form-label" >Court Latitude</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="xCoordCourt" placeholder="Latitude">
+      <input type="text" class="form-control" name="xCoordCourt" placeholder="Latitude" id="lat">
     </div>
   </div>
   <div class="form-group row">
-    <label for="yCoordCourt" class="col-sm-2 col-form-label">Court Longitude</label>
+    <label for="yCoordCourt" class="col-sm-2 col-form-label" >Court Longitude</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" name="yCoordCourt" placeholder="Longitude">
+      <input type="text" class="form-control" name="yCoordCourt" placeholder="Longitude" id="lng">
     </div>
   </div>
   <div class="form-group row">
