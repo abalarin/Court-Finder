@@ -54,3 +54,4 @@ flask run
 - [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/)
 - [Marshmallow-SQLAlchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/)
 - [MYSQLClient](https://readthedocs.org/projects/mysqlclient/)
+- [GoogleMaps API](https://github.com/googlemaps/google-maps-services-python)
