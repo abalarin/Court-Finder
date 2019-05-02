@@ -83,17 +83,19 @@ def register():
 
 
 @users.route('/UpdateProfile/<id>', methods=['GET','POST'])
+@login_required
 def updateProfile(id):
     if request.method == 'POST':
         user = User.query.filter_by(id=id).first()
         user.first_name = request.form.get('inputFirstName')
         user.last_name = request.form.get('inputLastName')
         user.favorite_court = request.form.get('inputFavoriteCourt')
-        user.height = request.form.get('inputHeight')
-        user.weight = request.form.get('inputWeight')
         user.skill_level = request.form.get('inputSkillLevel')
+
         db.session.commit()
-        if request.form.get('inputPassword') == None and request.form.get('inputConfirmPassword') == None:
+
+        # Validate Passwords
+        if request.form.get('inputPassword') == "":
             flash('Password was not changed', 'danger')
         elif request.form.get('inputPassword') == request.form.get('inputConfirmPassword'):
             hashed_pass = sha256_crypt.encrypt(str(request.form.get('inputPassword')))
@@ -102,24 +104,29 @@ def updateProfile(id):
         else:
             flash('Passwords dont match', 'danger')
 
+        # Validate Username
         if not check_username(request.form.get('inputUserName')):
             user.username=request.form.get('inputUserName')
             db.session.commit()
         else:
             flash('Username was taken, Username was not changed', 'danger')
+
+        # Validate Email
         if not check_email(request.form.get('inputEmail')):
             user.email = request.form.get('inputEmail')
             db.session.commit()
         else:
             flash('Email was taken, Email was not changed', 'danger')
+
         flash('Profile has been updated!', 'success')
-        return render_template('users/profile.html', user=user)
+        return redirect(url_for('users.profile'))
 
     elif request.method == 'GET':
         user = User.query.filter_by(id=id).first()
         return render_template('users/UpdateProfile.html', user=user)
 
 @users.route('/DeleteUser/<id>', methods=['GET'])
+@login_required
 def deleteUser(id):
     if request.method == 'GET':
         user = User.query.filter_by(id=id).first()
