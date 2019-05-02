@@ -51,4 +51,6 @@ flask run
   - [passlib](https://passlib.readthedocs.io/en/stable/) Password hashing
   - [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/) Form validation
 - [Jinja](http://jinja.pocoo.org/docs/2.10/) HTML templating
-- More to come...
+- [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/)
+- [Marshmallow-SQLAlchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/)
+- [MYSQLClient](https://readthedocs.org/projects/mysqlclient/)
