@@ -167,11 +167,15 @@ def update_court(id):
 
 @courts.route('/DeleteCourt/<id>', methods=['GET'])
 def delete_court(id):
-    if request.method == 'GET':
-        court = Court.query.filter_by(id=id).first()
 
-        db.session.delete(court)
-        db.session.commit()
+    if current_user.admin:
+        if request.method == 'GET':
+            # court = Court.query.filter_by(id=id).first()
+            #
+            # db.session.delete(court)
+            # db.session.commit()
 
-        flash('Court has been deleted', 'success')
+            flash('Court has been deleted', 'success')
+            return redirect(url_for('courts.list_courts'))
+    else:
         return redirect(url_for('courts.list_courts'))

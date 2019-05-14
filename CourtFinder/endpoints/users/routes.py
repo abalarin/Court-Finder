@@ -82,7 +82,7 @@ def register():
     return render_template('users/register.html', form=form)
 
 
-@users.route('/UpdateProfile/<id>', methods=['GET','POST'])
+@users.route('/UpdateProfile/<id>', methods=['GET', 'POST'])
 @login_required
 def updateProfile(id):
     if request.method == 'POST':
@@ -99,14 +99,14 @@ def updateProfile(id):
             flash('Password was not changed', 'danger')
         elif request.form.get('inputPassword') == request.form.get('inputConfirmPassword'):
             hashed_pass = sha256_crypt.encrypt(str(request.form.get('inputPassword')))
-            user.password= hashed_pass
+            user.password = hashed_pass
             db.session.commit()
         else:
             flash('Passwords dont match', 'danger')
 
         # Validate Username
         if not check_username(request.form.get('inputUserName')):
-            user.username=request.form.get('inputUserName')
+            user.username = request.form.get('inputUserName')
             db.session.commit()
         else:
             flash('Username was taken, Username was not changed', 'danger')
@@ -125,15 +125,19 @@ def updateProfile(id):
         user = User.query.filter_by(id=id).first()
         return render_template('users/UpdateProfile.html', user=user)
 
+
 @users.route('/DeleteUser/<id>', methods=['GET'])
 @login_required
 def deleteUser(id):
-    if request.method == 'GET':
-        user = User.query.filter_by(id=id).first()
-        db.session.delete(user)
-        db.session.commit()
-        flash('User has been deleted', 'success')
-        return redirect(url_for('main.index'))
+    if current_user.admin == True:
+        if request.method == 'GET':
+            # user = User.query.filter_by(id=id).first()
+            # db.session.delete(user)
+            # db.session.commit()
+            flash('User has been deleted', 'success')
+            return redirect(url_for('main.index'))
+    else:
+        return redirect(url_for(main.error_404))
 
 
 # Check if username or email are already taken

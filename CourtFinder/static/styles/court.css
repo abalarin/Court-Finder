@@ -26,3 +26,7 @@
 .hidden {
     display: none;
 }
+
+#court_title {
+  text-decoration: none;
+}
