@@ -43,6 +43,9 @@ def index():
     else:
         return render_template('index.html', form=form)
 
+@main.route('/alpha', methods=['GET', 'POST'])
+def alpha():
+    return render_template('errors/alpha.html')
 
 @main.app_errorhandler(401)
 def redirect_login(e):
@@ -54,4 +57,4 @@ def redirect_login(e):
 @main.app_errorhandler(405)
 @main.app_errorhandler(500)
 def error_404(error):
-    return render_template('404.html', e=error)
+    return render_template('errors/404.html', e=error)
