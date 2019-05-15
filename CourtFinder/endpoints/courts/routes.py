@@ -105,6 +105,7 @@ def map_view():
 
 
 @courts.route('/CreateCourt', methods=['GET', 'POST'])
+@login_required
 def create_court():
     form = CourtCreationForm()
     if form.validate_on_submit():
