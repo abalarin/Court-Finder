@@ -4,7 +4,7 @@ from passlib.hash import sha256_crypt
 
 from CourtFinder import db
 from CourtFinder.models.users import User
-from CourtFinder.endpoints.users.forms import RegistrationForm
+from CourtFinder.endpoints.users.forms import RegistrationForm, UpdateProfileForm
 from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
 
 from CourtFinder.endpoints.main.routes import *
@@ -84,48 +84,70 @@ def register():
     return render_template('users/register.html', form=form)
 
 
-@users.route('/UpdateProfile', methods=['GET', 'POST'])
+@users.route('/account/profile/update', methods=['POST'])
 @login_required
-def updateProfile():
-    if request.method == 'POST':
-        user = User.query.filter_by(id=current_user.id).first()
-        user.first_name = request.form.get('inputFirstName')
-        user.last_name = request.form.get('inputLastName')
-        user.favorite_court = request.form.get('inputFavoriteCourt')
-        user.skill_level = request.form.get('inputSkillLevel')
+def update_profile():
+    user = User.query.filter_by(id=current_user.id).first()
+    user.first_name = request.form.get('first_name')
+    user.last_name = request.form.get('last_name')
+    username = request.form.get('username')
 
+    # Validate Username
+    if not check_username(username):
+        flash('Profile Updated!', 'success')
+        user.username = username
+    else:
+        if username == user.username:
+            flash('Username not changed', 'danger')
+        else:
+            flash('Username is taken, Username was not changed', 'danger')
+
+    db.session.commit()
+    return redirect(url_for('users.profile'))
+
+
+@users.route('/account/password/update', methods=['POST'])
+@login_required
+def update_password():
+    user = User.query.filter_by(id=current_user.id).first()
+    old_password = request.form.get('old_password')
+    new_password = request.form.get('new_password')
+    confirm_password = request.form.get('confirm_password')
+
+    if sha256_crypt.verify(old_password, user.password):
+        if new_password == "":
+            flash('Password is not long enough!', 'danger')
+        elif new_password == confirm_password:
+            user.password = sha256_crypt.encrypt(str(new_password))
+            flash('Password Updated!', 'success')
+            db.session.commit()
+        else:
+            flash('Passwords dont match!', 'danger')
+
+    else:
+        flash('Old Password Incorrect!', 'danger')
+
+    return redirect(url_for('users.profile'))
+
+
+@users.route('/account/email/update', methods=['POST'])
+@login_required
+def update_email():
+    user = User.query.filter_by(id=current_user.id).first()
+    email = request.form.get('email')
+
+    # Validate Email
+    if not check_email(email):
+        user.email = email
         db.session.commit()
-
-        # Validate Passwords
-        if request.form.get('inputPassword') == "":
-            flash('Password was not changed', 'danger')
-        elif request.form.get('inputPassword') == request.form.get('inputConfirmPassword'):
-            hashed_pass = sha256_crypt.encrypt(str(request.form.get('inputPassword')))
-            user.password = hashed_pass
-            db.session.commit()
+        flash('Email was updated', 'success')
+    else:
+        if email == user.email:
+            flash('Email was not changed', 'danger')
         else:
-            flash('Passwords dont match', 'danger')
+            flash('Email is taken, Email was not changed', 'danger')
 
-        # Validate Username
-        if not check_username(request.form.get('inputUserName')):
-            user.username = request.form.get('inputUserName')
-            db.session.commit()
-        else:
-            flash('Username was taken, Username was not changed', 'danger')
-
-        # Validate Email
-        if not check_email(request.form.get('inputEmail')):
-            user.email = request.form.get('inputEmail')
-            db.session.commit()
-        else:
-            flash('Email was taken, Email was not changed', 'danger')
-
-        flash('Profile has been updated!', 'success')
-        return redirect(url_for('users.profile'))
-
-    elif request.method == 'GET':
-        user = User.query.filter_by(id=current_user.id).first()
-        return render_template('users/UpdateProfile.html', user=user)
+    return redirect(url_for('users.profile'))
 
 
 @users.route('/DeleteUser', methods=['GET'])

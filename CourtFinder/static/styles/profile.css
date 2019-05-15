@@ -1,4 +1,4 @@
-html, body {
+/* html, body {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -47,8 +47,28 @@ html, body {
 
 .profilebuttons{
   text-align: center;
+} */
+
+.profile-img {
+  max-width: 300px;
+  margin-bottom: 50px;
+}
+.sub-menu a{
+  text-decoration: none;
 }
 
+#_password {
+  display: none;
+}
+#_email {
+  display: none;
+}
+#_friends {
+  display: none;
+}
+#_privacy {
+  display: none;
+}
 
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (max-width: 922px) {
