@@ -7,6 +7,8 @@ from CourtFinder.models.users import User
 from CourtFinder.endpoints.users.forms import RegistrationForm
 from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
 
+from CourtFinder.endpoints.main.routes import *
+
 users = Blueprint('users', __name__)
 
 
@@ -126,18 +128,12 @@ def updateProfile():
         return render_template('users/UpdateProfile.html', user=user)
 
 
-@users.route('/DeleteUser/<id>', methods=['GET'])
+@users.route('/DeleteUser', methods=['GET'])
 @login_required
-def deleteUser(id):
-    if current_user.admin == True:
-        if request.method == 'GET':
-            # user = User.query.filter_by(id=id).first()
-            # db.session.delete(user)
-            # db.session.commit()
-            flash('User has been deleted', 'success')
-            return redirect(url_for('main.index'))
-    else:
-        return redirect(url_for(main.error_404))
-
-
-# Check if username or email are already taken
+def deleteUser():
+    if request.method == 'GET':
+        user = User.query.filter_by(id=current_user.id).first()
+        db.session.delete(user)
+        db.session.commit()
+        flash('User has been deleted', 'success')
+        return redirect(url_for('main.index'))
