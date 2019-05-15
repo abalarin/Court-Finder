@@ -6,7 +6,7 @@ from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.models.users import User
 
 from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator
-from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm
+from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm, CourtUpdateForm
 
 import json
 import uuid
@@ -138,18 +138,19 @@ def create_court():
 
 @courts.route('/UpdateCourt/<id>', methods=['GET', 'POST'])
 def update_court(id):
-    if request.method == 'POST':
+    form = CourtUpdateForm()
+    if form.validate_on_submit():
         court = Court.query.filter_by(id=id).first()
 
-        court.adress = request.form.get('inputCourtAddress')
-        court.name = request.form.get('inputCourtName')
-        court.total_courts = request.form.get('inputNumCourts')
+        court.adress = form.address.data
+        court.name = form.title.data
+        court.total_courts = form.court_count.data
         court.total_visits = 0
-        court.lights = int(request.form.get('lightsRadios'))
-        court.membership_required = int(request.form.get('publicprivateRadios'))
-        court.description = request.form.get('inputCourtDescription')
-        court.latitude = request.form.get('xCoordCourt')
-        court.longitude = request.form.get('yCoordCourt')
+        court.lights = int(form.lights.data)
+        court.membership_required = int(form.status.data)
+        court.description = form.description.data
+        court.latitude = form.latitude.data
+        court.longitude = form.longitude.data
 
         # Upload Images
         upload_images(request.files.getlist("court_images"), id)
@@ -158,10 +159,10 @@ def update_court(id):
         flash('Your court has been updated!', 'success')
         return redirect(url_for('courts.list_courts'))
 
-    elif request.method == 'GET':
-
+    else:
         court = Court.query.filter_by(id=id).first()
-        return render_template('courts/UpdateCourt.html', court=court)
+        form.description.data = court.description
+        return render_template('courts/UpdateCourt.html', court=court, form=form)
 
 
 @courts.route('/DeleteCourt/<id>', methods=['GET'])
