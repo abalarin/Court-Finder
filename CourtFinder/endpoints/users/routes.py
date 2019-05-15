@@ -82,11 +82,11 @@ def register():
     return render_template('users/register.html', form=form)
 
 
-@users.route('/UpdateProfile/<id>', methods=['GET', 'POST'])
+@users.route('/UpdateProfile', methods=['GET', 'POST'])
 @login_required
-def updateProfile(id):
+def updateProfile():
     if request.method == 'POST':
-        user = User.query.filter_by(id=id).first()
+        user = User.query.filter_by(id=current_user.id).first()
         user.first_name = request.form.get('inputFirstName')
         user.last_name = request.form.get('inputLastName')
         user.favorite_court = request.form.get('inputFavoriteCourt')
@@ -122,7 +122,7 @@ def updateProfile(id):
         return redirect(url_for('users.profile'))
 
     elif request.method == 'GET':
-        user = User.query.filter_by(id=id).first()
+        user = User.query.filter_by(id=current_user.id).first()
         return render_template('users/UpdateProfile.html', user=user)
 
 
