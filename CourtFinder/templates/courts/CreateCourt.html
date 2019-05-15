@@ -1,96 +1,137 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+<link rel="stylesheet" href="/static/styles/create_court.css">
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDZmCypbix1jrl8_kfNc8SfTEHhZzVoIfk&libraries=places"></script>
 <script src="{{ url_for('static', filename='scripts/autocomplete.js') }}"></script>
-<script>window.onload=initialize</script>
-<form method="POST" enctype="multipart/form-data">
 
-  <div class="form-group row">
-    <label for="inputCourtName" class="col-sm-2 col-form-label">Court Name</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="inputCourtName" placeholder="Court Name">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputCourtAddress" class="col-sm-2 col-form-label" >Court Address</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="inputCourtAddress" placeholder="Court Address" id="address-input" onFocus="geolocate()">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="xCoordCourt" class="col-sm-2 col-form-label" >Court Latitude</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="xCoordCourt" placeholder="Latitude" id="lat">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="yCoordCourt" class="col-sm-2 col-form-label" >Court Longitude</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="yCoordCourt" placeholder="Longitude" id="lng">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputNumCourts" class="col-sm-2 col-form-label">Number of courts</label>
-    <div class="col-sm-10">
-      <input type="text" class="form-control" name="inputNumCourts" placeholder="Number of Courts">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="exampleFormControlTextarea1">Court Description</label>
-    <textarea class="form-control" name="inputCourtDescription" rows="3"></textarea>
-  </div>
+<script>
+  window.onload = initialize
+</script>
 
-  <!-- Upload Pictures  -->
-  <div class="form-group">
-    <label>Court Pictures</label>
-    <div class="custom-file">
-      <input type="file" class="custom-file-input" name="court_images" accept="image/*" multiple>
-      <label class="custom-file-label" for="customFile">Choose Pictures</label>
-    </div>
-  </div>
-
-  <fieldset class="form-group">
-    <div class="row">
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="publicprivateRadios" name="privateRadios1" value=1 checked>
-          <label class="form-check-label" for="privateRadios1">
-            Private
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="publicprivateRadios" value=0>
-          <label class="form-check-label" for="publicRadios2">
-            Public
-          </label>
-        </div>
-      </div>
-    </div>
-
-  </fieldset>
+<form class="create-court" method="post" action="{{url_for('courts.create_court')}}" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
   <fieldset>
-    <div class="row">
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="lightsRadios" value=1 checked>
-          <label class="form-check-label" for="yesRadio1">
-            lights
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="lightsRadios" name="noRadio2" value=0>
-          <label class="form-check-label" for="noRadio2">
-            no lights
-          </label>
+    <legend> Add a Basketball Court</legend>
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-6">
+          {{form.title.label}}
+          {% if form.title.errors %}
+            {{ form.title(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.title.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{ form.title(class="form-control", placeholder="Court Name") }}
+          {% endif %}
         </div>
       </div>
     </div>
-  </fieldset>
-  <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary">Create</button>
+
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-6">
+          {{form.address.label}}
+          {{form.address(class="form-control", id="address-input", placeholder="123 Main St, Wayne, NJ 07470", onFocus="geolocate()")}}
+        </div>
+      </div>
     </div>
-  </div>
+
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-3">
+          {{form.latitude.label}}
+          {{form.latitude(class="form-control", id="lat", readonly=true)}}
+        </div>
+
+        <div class="col-md-3">
+          {{form.longitude.label}}
+          {{form.longitude(class="form-control", id="lng", readonly=true)}}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-6">
+          {{form.court_count.label}}
+          {% if form.court_count.errors %}
+            {{ form.court_count(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.court_count.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{form.court_count(class="form-control")}}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-6">
+          {{form.description.label}}
+          {{form.description(class="form-control")}}
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-3">
+          {{form.status.label}}
+          {% if form.status.errors %}
+            {{ form.status(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.status.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{form.status(class="form-control")}}
+          {% endif %}
+        </div>
+        <div class="col-md-3">
+          {{form.lights.label}}
+          {% if form.lights.errors %}
+            {{ form.lights(class="form-control is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.lights.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% else %}
+            {{form.lights(class="form-control")}}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Upload Pictures  -->
+    <div class="form-group">
+      <div class="form-row">
+        <div class="col-md-6">
+
+          <label>Court Pictures</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="court_images" accept="image/*" multiple>
+            <label class="custom-file-label" for="custom-file">Choose Pictures</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    {{form.submit(class="btn btn-primary btn-lg")}}
+
+  </fieldset>
+
 </form>
+
 {% endblock %}

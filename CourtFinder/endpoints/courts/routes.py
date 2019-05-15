@@ -6,7 +6,7 @@ from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.models.users import User
 
 from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator
-from CourtFinder.endpoints.courts.forms import CourtSearch
+from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm
 
 import json
 import uuid
@@ -106,25 +106,22 @@ def map_view():
 
 @courts.route('/CreateCourt', methods=['GET', 'POST'])
 def create_court():
-    if request.method == 'GET':
-        return render_template('courts/CreateCourt.html')
-
-    elif request.method == 'POST':
-
+    form = CourtCreationForm()
+    if form.validate_on_submit():
         # Make a unique listing ID
         uid = str(id_validator(uuid.uuid4()))
 
         court = Court(
             uid=uid,
-            address=request.form.get('inputCourtAddress'),
-            name=request.form.get('inputCourtName'),
-            total_courts=request.form.get('inputNumCourts'),
+            address=form.address.data,
+            name=form.title.data,
+            total_courts=form.court_count.data,
             total_visits=0,
-            lights=int(request.form.get('lightsRadios')),
-            membership_required=int(request.form.get('publicprivateRadios')),
-            description=request.form.get('inputCourtDescription'),
-            latitude=request.form.get('xCoordCourt'),
-            longitude=request.form.get('yCoordCourt'))
+            lights=int(form.lights.data),
+            membership_required=int(form.status.data),
+            description=form.description.data,
+            latitude=form.latitude.data,
+            longitude=form.longitude.data)
 
         db.session.add(court)
         db.session.commit()
@@ -135,6 +132,8 @@ def create_court():
 
         flash('Court Created!', 'success')
         return redirect(url_for('courts.list_courts'))
+    else:
+        return render_template('courts/CreateCourt.html', form=form)
 
 
 @courts.route('/UpdateCourt/<id>', methods=['GET', 'POST'])
@@ -170,10 +169,9 @@ def delete_court(id):
 
     if current_user.admin:
         if request.method == 'GET':
-            # court = Court.query.filter_by(id=id).first()
-            #
-            # db.session.delete(court)
-            # db.session.commit()
+            court = Court.query.filter_by(id=id).first()
+            db.session.delete(court)
+            db.session.commit()
 
             flash('Court has been deleted', 'success')
             return redirect(url_for('courts.list_courts'))
