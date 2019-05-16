@@ -32,7 +32,7 @@ def public_profile(id):
     user = User.query.filter_by(id=id).first()
     if user is None:
         return redirect(url_for('main.index'))
-        
+
     reviews = CourtReview.query.filter_by(user_id=id)
 
     if user.favorite_court:
@@ -59,7 +59,7 @@ def login():
 
             # Init session vars
             login_user(result)
-            return render_template('users/profile.html', user=result)
+            return redirect(url_for('users.profile'))
 
         else:
             flash('Incorrect Login!', 'danger')
