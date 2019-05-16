@@ -71,7 +71,13 @@
 
     <div class="col-md">
       <div class="card-body">
-        <h1>{{ Court.name }}</h1>
+        <h1>
+          {{ Court.name }}
+          <a class="btn btn-outline-secondary" href="/favorite/{{Court.id}}">
+            <img class="bookmark" src="/static/open-iconic/svg/bookmark.svg">
+            Favorite
+          </a>
+        </h1>
         <h6>{{ Court.address }}</h6>
 
         <div class="row">

@@ -4,6 +4,7 @@ from passlib.hash import sha256_crypt
 
 from CourtFinder import db
 from CourtFinder.models.users import User
+from CourtFinder.models.courts import Court
 from CourtFinder.endpoints.users.forms import RegistrationForm, UpdateProfileForm
 from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
 
@@ -15,7 +16,13 @@ users = Blueprint('users', __name__)
 @users.route('/profile')
 def profile():
     if current_user.is_authenticated:
+        if current_user.favorite_court:
+            favorite_court = Court.query.filter_by(id=current_user.favorite_court).first()
+
+            return render_template("users/profile.html", user=current_user, favorite_court=favorite_court)
+
         return render_template("users/profile.html", user=current_user)
+
     else:
         return render_template('users/login.html')
 
@@ -148,6 +155,14 @@ def update_email():
             flash('Email is taken, Email was not changed', 'danger')
 
     return redirect(url_for('users.profile'))
+
+@users.route('/favorite/<id>')
+@login_required
+def favorite_court(id):
+    user = User.query.filter_by(id=current_user.id).first()
+    user.favorite_court = id
+    db.session.commit()
+    return(redirect(url_for('courts.list_court', id=id)))
 
 
 @users.route('/DeleteUser', methods=['GET'])

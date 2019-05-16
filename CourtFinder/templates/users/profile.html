@@ -35,10 +35,22 @@
   <div class="col-6">
     <div class="profile-overview">
       <div class="card-body">
-        <h1>{{user.first_name}} {{user.last_name}}</h1>
-        <h2>{{user.username}}</h2>
-        <p>Skill: {{user.skill_level}}</p>
-        <p>Games played: {{user.court_visits}}</p>
+        <h1>{{user.first_name}} {{user.last_name}} - {{user.username}}</h1>
+        {% if favorite_court %}
+        <h3 class="text-muted">
+          <a class="text-muted"id="favorite-court" href="/court/{{favorite_court.id}}">
+            Fave Court - {{favorite_court.name}}
+          </a>
+        </h3>
+        {% endif %}
+        <div class="row">
+          <div class="col-sm">
+            <p>Skill: {{user.skill_level}}</p>
+          </div>
+          <div class="col-sm">
+            <p>Games: {{user.court_visits}}</p>
+          </div>
+        </div>
       </div>
     </div>
 
