@@ -4,7 +4,7 @@ from passlib.hash import sha256_crypt
 
 from CourtFinder import db
 from CourtFinder.models.users import User
-from CourtFinder.models.courts import Court
+from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.endpoints.users.forms import RegistrationForm, UpdateProfileForm
 from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
 
@@ -25,6 +25,21 @@ def profile():
 
     else:
         return render_template('users/login.html')
+
+
+@users.route('/profile/<id>')
+def public_profile(id):
+    user = User.query.filter_by(id=id).first()
+    if user is None:
+        return redirect(url_for('main.index'))
+        
+    reviews = CourtReview.query.filter_by(user_id=id)
+
+    if user.favorite_court:
+        favorite_court = Court.query.filter_by(id=user.favorite_court).first()
+        return render_template("users/public_profile.html", user=user, favorite_court=favorite_court, reviews=reviews)
+
+    return render_template("users/public_profile.html", user=user, reviews=reviews)
 
 
 @users.route('/login', methods=['GET', 'POST'])
@@ -155,6 +170,7 @@ def update_email():
             flash('Email is taken, Email was not changed', 'danger')
 
     return redirect(url_for('users.profile'))
+
 
 @users.route('/favorite/<id>')
 @login_required

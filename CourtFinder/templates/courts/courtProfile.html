@@ -102,7 +102,10 @@
   <h2 class="text-center"> Court Reviews </h2>
   {% for review in Reviews %}
   <hr>
-  <h2>{{review.username}} <span class="text-muted">wrote:</span></h2>
+  <h2>
+    <a href="/profile/{{review.user_id}}">{{review.username}}</a>
+    <span class="text-muted">wrote:</span>
+  </h2>
   <p>{{review.review}}</p>
   {% endfor %}
 </div>
