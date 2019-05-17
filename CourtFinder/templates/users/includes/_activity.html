@@ -5,6 +5,8 @@
     <h2>
       <a href="/court/{{review.court.id}}">{{review.court.name}}</a>
     </h2>
+    <h3 class="court-address"> {{review.court.address}}</h3>
+    <span class="text-muted"> {{review.date.strftime('%m/%d/%Y')}} </span>
     <p>{{review.review}}</p>
   </div>
 </div>

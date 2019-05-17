@@ -2,7 +2,7 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<link rel="stylesheet" href="/static/styles/courtProfile.css">
+<link rel="stylesheet" href="/static/styles/court_profile.css">
 
 <div id="googleMap" style="width:100%;height:400px;"></div>
 
@@ -102,16 +102,21 @@
   <h2 class="text-center"> Court Reviews </h2>
   {% for review in Reviews %}
   <hr>
-  <h2>
-    <a href="/profile/{{review.user_id}}">{{review.username}}</a>
-    <span class="text-muted">wrote:</span>
-  </h2>
-  <p>{{review.review}}</p>
+  <div class="media">
+    <img src="/static/images/basketball.png" class="review-profile-img" alt="...">
+    <div class="media-body">
+      <h2>
+        <a href="/profile/{{review.user_id}}">{{review.username}}</a>
+      </h2>
+      <span class="text-muted"> {{review.date.strftime('%m/%d/%Y')}} </span>
+      <p class="review">{{review.review}}</p>
+    </div>
+  </div>
   {% endfor %}
 </div>
 
 <div class="add-review">
-  <form method="POST">
+  <form method="POST" action="/court/{{Court.id}}/review">
     <div class="form-group">
       <h2 class="text-center"> Add Review</h2>
       <textarea class="form-control" name="court_review" rows="3"></textarea>

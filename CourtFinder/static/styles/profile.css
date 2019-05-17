@@ -29,3 +29,9 @@
     font-size: 2em;
   }
 }
+
+.friend-profile-img {
+  width: 64px;
+  height: 64px;
+  margin-right: 15px;
+}

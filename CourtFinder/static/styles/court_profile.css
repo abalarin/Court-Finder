@@ -21,3 +21,13 @@
 .bookmark {
   width: 25px;
 }
+
+.review-profile-img{
+  width: 64px;
+  height: 64px;
+  margin-right: 15px;
+}
+
+.review{
+  max-width: 450px;
+}

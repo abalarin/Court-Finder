@@ -27,11 +27,38 @@
 {% if request.status == True %}
 <div class="card review">
   <div class="card-body">
-    <h2>
-      <a href="/profile/{{request.requester.id}}">
-        {{request.requester.username}}
-      </a>
-    </h2>
+
+    <div class="media">
+      <img src="/static/images/basketball.png" class="friend-profile-img" alt="...">
+      <div class="media-body">
+        <h2>
+          <a href="/profile/{{request.requester.id}}">
+            {{request.requester.username}}
+          </a>
+        </h2>
+        <span class="text-muted"> {{request.date.strftime('%m/%d/%Y')}} </span>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% for request in user.friend_requests %}
+{% if request.status == True %}
+<div class="card review">
+  <div class="card-body">
+    <div class="media">
+      <img src="/static/images/basketball.png" class="friend-profile-img" alt="...">
+      <div class="media-body">
+        <h2>
+          <a href="/profile/{{request.requested.id}}">
+            {{request.requested.username}}
+          </a>
+        </h2>
+        <span class="text-muted"> {{request.date.strftime('%m/%d/%Y')}} </span>
+      </div>
+    </div>
   </div>
 </div>
 {% endif %}

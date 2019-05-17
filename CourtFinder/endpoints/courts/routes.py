@@ -11,21 +11,21 @@ from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm, C
 import json
 import uuid
 
-courts = Blueprint('courts', __name__)
+courts = Blueprint("courts", __name__)
 
 
-@courts.route('/courts', methods=['GET', 'POST'])
+@courts.route("/courts", methods=["GET", "POST"])
 def list_courts():
     form = CourtSearch()
 
-    if request.method == 'GET':
+    if request.method == "GET":
         courts = Court.query.all()
 
         # Get images for each listing
         for court in courts:
             court.images = get_images(str(court.id))
 
-        return render_template('courts/courts.html', Courts=courts, form=form)
+        return render_template("courts/courts.html", Courts=courts, form=form)
 
     else:
         tpe = form.type.data
@@ -33,56 +33,60 @@ def list_courts():
         lght = form.lights.data
 
         court = Court.query.filter((Court.lights == lght) & (Court.membership_required == tpe)).all()
-        return render_template('courts/courts.html', Courts=court, form=form)
+        return render_template("courts/courts.html", Courts=court, form=form)
 
 
-@courts.route('/images/<id>/<filename>')
+@courts.route("/images/<id>/<filename>")
 def get_image(id, filename):
-    return send_from_directory('static/images/courts/', id + '/' + filename)
+    return send_from_directory("static/images/courts/", id + "/" + filename)
 
 
-@courts.route('/court/<id>', methods=['GET', 'POST'])
+@courts.route("/court/<id>", methods=["GET", "POST"])
 def list_court(id):
-    if request.method == 'GET':
+    if request.method == "GET":
 
         court = Court.query.filter_by(id=id).first()
         court.images = get_images(str(court.id))
         reviews = court.reviews
 
-        return render_template('courts/court_profile.html', Court=court, Reviews=reviews)
+        return render_template("courts/court_profile.html", Court=court, Reviews=reviews)
 
-    elif request.method == 'POST':
-        court = Court.query.filter_by(id=id).first()
+@courts.route("/court/<id>/review", methods=["POST"])
+@login_required
+def add_review(id):
+    court = Court.query.filter_by(id=id).first()
+    review = request.form.get("court_review")
 
-        # Check if user is logged in before allowing to post to DB
-        if not current_user.is_authenticated:
-            return redirect(url_for("users.login"))
-
-        # Make sure theres a review typed in
-        if request.form.get('court_review') == '':
-            flash("Please enter a review!", "danger")
-            return redirect(url_for("courts.list_court", id=id))
-
-        add_review = request.form.get('court_review')
-        court_review = CourtReview.query.filter_by(user_id=current_user.id).filter_by(court_id=id).first()
-
-        # If a review doesnt exsist already make a new one
-        if not court_review:
-            court_review = CourtReview(
-                court_id=id,
-                user_id=current_user.id,
-                username=current_user.username,
-                review=add_review,
-                date=date_now()
-            )
-        else:
-            court_review.review = add_review
-            court_review.date = date_now()
-
-        db.session.add(court_review)
-        db.session.commit()
-
+    # Make sure theres a review typed in
+    if review == '':
+        flash("Please enter a review!", "danger")
         return redirect(url_for("courts.list_court", id=id))
+
+    if len(review) > 250:
+        flash("Please enter a review shorter then 250 characters", "danger")
+        return redirect(url_for("courts.list_court", id=id))
+
+    add_review = request.form.get("court_review")
+    court_review = CourtReview.query.filter_by(user_id=current_user.id).filter_by(court_id=id).first()
+
+    # If a review doesnt exsist already make a new one
+    if not court_review:
+        court_review = CourtReview(
+            court_id=id,
+            user_id=current_user.id,
+            username=current_user.username,
+            review=add_review,
+            date=date_now()
+        )
+    else:
+        court_review.review = add_review
+        court_review.date = date_now()
+
+    db.session.add(court_review)
+    db.session.commit()
+
+    return redirect(url_for("courts.list_court", id=id))
+
 
 
 @courts.route("/map")
@@ -102,10 +106,10 @@ def map_view():
             }
         }
 
-    return render_template('courts/map.html', courts=courts)
+    return render_template("courts/map.html", courts=courts)
 
 
-@courts.route('/create/court', methods=['GET', 'POST'])
+@courts.route("/create/court", methods=["GET", "POST"])
 @login_required
 def create_court():
     form = CourtCreationForm()
@@ -132,13 +136,13 @@ def create_court():
         court = Court.query.filter_by(uid=uid).first()
         upload_images(request.files.getlist("court_images"), court.id)
 
-        flash('Court Created!', 'success')
-        return redirect(url_for('courts.list_courts'))
+        flash("Court Created!", "success")
+        return redirect(url_for("courts.list_courts"))
     else:
-        return render_template('courts/create_court.html', form=form)
+        return render_template("courts/create_court.html", form=form)
 
 
-@courts.route('/update/court/<id>', methods=['GET', 'POST'])
+@courts.route("/update/court/<id>", methods=["GET", "POST"])
 def update_court(id):
     form = CourtUpdateForm()
     if form.validate_on_submit():
@@ -158,25 +162,25 @@ def update_court(id):
         upload_images(request.files.getlist("court_images"), id)
 
         db.session.commit()
-        flash('Your court has been updated!', 'success')
-        return redirect(url_for('courts.list_courts'))
+        flash("Your court has been updated!", "success")
+        return redirect(url_for("courts.list_courts"))
 
     else:
         court = Court.query.filter_by(id=id).first()
         form.description.data = court.description
-        return render_template('courts/update_court.html', court=court, form=form)
+        return render_template("courts/update_court.html", court=court, form=form)
 
 
-@courts.route('/delete/court/<id>', methods=['GET'])
+@courts.route("/delete/court/<id>", methods=["GET"])
 def delete_court(id):
 
     if current_user.admin:
-        if request.method == 'GET':
+        if request.method == "GET":
             court = Court.query.filter_by(id=id).first()
             db.session.delete(court)
             db.session.commit()
 
-            flash('Court has been deleted', 'success')
-            return redirect(url_for('courts.list_courts'))
+            flash("Court has been deleted", "success")
+            return redirect(url_for("courts.list_courts"))
     else:
-        return redirect(url_for('courts.list_courts'))
+        return redirect(url_for("courts.list_courts"))

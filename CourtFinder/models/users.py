@@ -39,6 +39,7 @@ class Friendship(db.Model):
     requester_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     requested_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     status = db.Column(db.Boolean, default=None)
+    date = db.Column(db.DateTime, nullable=False)
 
 
 class UserSchema(ma.Schema):
