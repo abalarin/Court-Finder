@@ -44,10 +44,10 @@ def get_image(id, filename):
 @courts.route('/court/<id>', methods=['GET', 'POST'])
 def list_court(id):
     if request.method == 'GET':
+        
         court = Court.query.filter_by(id=id).first()
         court.images = get_images(str(court.id))
-
-        reviews = CourtReview.query.filter_by(court_id=id)
+        reviews = court.reviews
 
         return render_template('courts/courtProfile.html', Court=court, Reviews=reviews)
 

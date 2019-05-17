@@ -14,23 +14,24 @@ class Court(db.Model):
     latitude = db.Column(db.Numeric(10, 8))
     longitude = db.Column(db.Numeric(11, 8))
 
+    # One to Many relationships
+    reviews = db.relationship('CourtReview', backref='court')
+    user_favorite = db.relationship('User', backref='court')
+
     def __repr__(self):
         return '<Court %r>' % self.name
 
 
 class CourtReview(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    court_id = db.Column(db.Integer, db.ForeignKey('court.id'),
-                         nullable=False)
-    court = db.relationship('Court',
-                            backref=db.backref('courtreview', lazy=True))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),
-                        nullable=False)
+    court_id = db.Column(db.Integer, db.ForeignKey('court.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
     username = db.Column(db.String(40))
-    user = db.relationship('User',
-                           backref=db.backref('courtreview', lazy=True))
+
     raiting = db.Column(db.Integer)
     review = db.Column(db.String(250))
+
 
 class CourtSchema(ma.Schema):
     class Meta:

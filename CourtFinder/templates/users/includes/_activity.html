@@ -1,7 +1,10 @@
 <h2> Reviews </h2>
-{% for review in reviews %}
+{% for review in user.reviews %}
 <div class="card review">
   <div class="card-body">
+    <h2>
+      <a href="/court/{{review.court.id}}">{{review.court.name}}</a>
+    </h2>
     <p>{{review.review}}</p>
   </div>
 </div>

@@ -1,0 +1,38 @@
+<h2> Friend Requests </h2>
+{% for request in user.friends_requested %}
+{% if request.status == None %}
+<div class="card review">
+  <div class="card-body">
+    <h2>
+      <a href="/profile/{{request.requester.id}}">
+        {{request.requester.username}}
+      </a>
+
+      <a id="no-underline" href="/accept/friend/{{request.requester.id}}">
+        <img class="icon-default" src="/static/open-iconic/svg/check.svg">
+      </a>
+
+      <a id="no-underline" href="/decline/friend/{{request.requester.id}}">
+        <img class="icon-default" src="/static/open-iconic/svg/x.svg">
+      </a>
+
+    </h2>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<h2> Friends </h2>
+{% for request in user.friends_requested %}
+{% if request.status == True %}
+<div class="card review">
+  <div class="card-body">
+    <h2>
+      <a href="/profile/{{request.requester.id}}">
+        {{request.requester.username}}
+      </a>
+    </h2>
+  </div>
+</div>
+{% endif %}
+{% endfor %}

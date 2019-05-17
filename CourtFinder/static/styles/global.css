@@ -24,3 +24,12 @@ html {
     display: none;
   }
 }
+
+.icon-default {
+  width: 25px;
+  margin-left: 15px;
+}
+
+#no-underline {
+  text-decoration: none;
+}

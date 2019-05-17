@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from passlib.hash import sha256_crypt
 
 from CourtFinder import db
-from CourtFinder.models.users import User
+from CourtFinder.models.users import User, Friendship
 from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.endpoints.users.forms import RegistrationForm, UpdateProfileForm
 from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
@@ -16,30 +16,26 @@ users = Blueprint('users', __name__)
 @users.route('/profile')
 def profile():
     if current_user.is_authenticated:
-        if current_user.favorite_court:
-            favorite_court = Court.query.filter_by(id=current_user.favorite_court).first()
-
-            return render_template("users/profile.html", user=current_user, favorite_court=favorite_court)
-
         return render_template("users/profile.html", user=current_user)
-
     else:
         return render_template('users/login.html')
 
 
 @users.route('/profile/<id>')
 def public_profile(id):
+
+    # Check if current user matches requested profile
+    if current_user.is_authenticated:
+        if str(id) == str(current_user.id):
+            return redirect(url_for('users.profile'))
+
     user = User.query.filter_by(id=id).first()
+
+    # Verify a requested user exsists
     if user is None:
         return redirect(url_for('main.index'))
 
-    reviews = CourtReview.query.filter_by(user_id=id)
-
-    if user.favorite_court:
-        favorite_court = Court.query.filter_by(id=user.favorite_court).first()
-        return render_template("users/public_profile.html", user=user, favorite_court=favorite_court, reviews=reviews)
-
-    return render_template("users/public_profile.html", user=user, reviews=reviews)
+    return render_template("users/public_profile.html", user=user)
 
 
 @users.route('/login', methods=['GET', 'POST'])
@@ -179,6 +175,41 @@ def favorite_court(id):
     user.favorite_court = id
     db.session.commit()
     return(redirect(url_for('courts.list_court', id=id)))
+
+
+@users.route('/add/friend/<id>')
+@login_required
+def add_friend(id):
+    if str(current_user.id) == str(id):
+        return redirect(url_for('users.profile'))
+
+    # fix double friend request
+    status = Friendship.query.filter((Friendship.requester_id == current_user.id) or (Friendship.requested_id == id)).first()
+    if status:
+        flash('Request Pending!', 'success')
+        return redirect(url_for('users.public_profile', id=id))
+
+    request = Friendship(
+        requester_id=current_user.id,
+        requested_id=id
+    )
+
+    db.session.add(request)
+    db.session.commit()
+
+    flash('Friend Request Sent!', 'success')
+    return redirect(url_for('users.public_profile', id=id))
+
+@users.route('/accept/friend/<id>')
+@login_required
+def accept_friend(id):
+    request = Friendship.query.filter_by(requester_id=id).first()
+    if request:
+        request.status = True
+        db.session.commit()
+        flash('Friend added', 'success')
+
+    return redirect(url_for('users.profile'))
 
 
 @users.route('/DeleteUser', methods=['GET'])

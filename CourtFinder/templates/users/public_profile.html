@@ -26,11 +26,17 @@
   <div class="col-6">
     <div class="profile-overview">
       <div class="card-body">
-        <h1 class="text-capitalize">{{user.first_name}} {{user.last_name}}</h1>
-        {% if favorite_court %}
+        <h1 class="text-capitalize">
+          {{user.first_name}} {{user.last_name}}
+          <a href="/add/friend/{{user.id}}" class="btn btn-outline-secondary">
+            <img class="add-friend" src="/static/open-iconic/svg/person.svg">
+            Add Friend
+          </a>
+        </h1>
+        {% if user.court %}
         <h3 class="text-muted">
-          <a class="text-muted"id="favorite-court" href="/court/{{favorite_court.id}}">
-            Fave Court - {{favorite_court.name}}
+          <a class="text-muted" id="favorite-court" href="/court/{{user.court.id}}">
+            Fave Court - {{user.court.name}}
           </a>
         </h3>
         {% endif %}
