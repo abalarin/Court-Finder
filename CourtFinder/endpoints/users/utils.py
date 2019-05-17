@@ -1,4 +1,5 @@
 from CourtFinder.models.users import User
+import datetime
 
 # Check if username or email are already taken
 def user_exsists(username, email):
@@ -28,3 +29,7 @@ def check_email(email):
             return True
 
     return False
+
+
+def date_now():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")

@@ -62,7 +62,7 @@
         <p>{{ court.description }}</p>
 
         {% if current_user.is_authenticated %}
-        <a href="/UpdateCourt/{{court.id}}" class="btn btn-primary">
+        <a href="/update/court/{{court.id}}" class="btn btn-primary">
           Update
         </a>
 
@@ -95,7 +95,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <a href="/DeleteCourt/{{court.id}}">
+        <a href="/delete/court/{{court.id}}">
           <button type="button" class="btn btn-danger">Delete</button>
         </a>
       </div>
@@ -120,7 +120,7 @@
 
 <!-- Footer -->
 {% if current_user.is_authenticated %}
-<a href="/CreateCourt" class="btn btn-primary btn-lg btn-block">
+<a href="/create/court" class="btn btn-primary btn-lg btn-block">
   Create-a-Court
 </a>
 {% endif %}

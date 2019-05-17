@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, current_user
 from passlib.hash import sha256_crypt
+import datetime
 
 from CourtFinder import db
 from CourtFinder.endpoints.users.forms import RegistrationForm
 from CourtFinder.models.users import User
-from CourtFinder.endpoints.users.utils import user_exsists
+from CourtFinder.endpoints.users.utils import user_exsists, date_now
 
 
 main = Blueprint('main', __name__)
@@ -14,6 +15,7 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = RegistrationForm()
+    db.create_all()
 
     if form.validate_on_submit():
         # Create user object to insert into SQL
@@ -22,7 +24,9 @@ def index():
         new_user = User(
             username=form.username.data,
             email=form.email.data,
-            password=hashed_pass)
+            password=hashed_pass,
+            join_date=date_now()
+        )
 
         # Insert new user into SQL
         if user_exsists(new_user.username, new_user.email):
@@ -43,9 +47,11 @@ def index():
     else:
         return render_template('index.html', form=form)
 
+
 @main.route('/alpha', methods=['GET', 'POST'])
 def alpha():
     return render_template('errors/alpha.html')
+
 
 @main.app_errorhandler(401)
 def redirect_login(e):

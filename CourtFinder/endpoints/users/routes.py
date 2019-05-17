@@ -6,7 +6,7 @@ from CourtFinder import db
 from CourtFinder.models.users import User, Friendship
 from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.endpoints.users.forms import RegistrationForm, UpdateProfileForm
-from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email
+from CourtFinder.endpoints.users.utils import user_exsists, check_username, check_email, date_now
 
 from CourtFinder.endpoints.main.routes import *
 
@@ -84,7 +84,9 @@ def register():
             last_name=form.last_name.data,
             username=form.username.data,
             email=form.email.data,
-            password=hashed_pass)
+            password=hashed_pass,
+            join_date=date_now()
+        )
 
         # Insert new user into SQL
         if user_exsists(new_user.username, new_user.email):
@@ -191,7 +193,8 @@ def add_friend(id):
 
     request = Friendship(
         requester_id=current_user.id,
-        requested_id=id
+        requested_id=id,
+        date=date_now()
     )
 
     db.session.add(request)
@@ -200,12 +203,14 @@ def add_friend(id):
     flash('Friend Request Sent!', 'success')
     return redirect(url_for('users.public_profile', id=id))
 
+
 @users.route('/accept/friend/<id>')
 @login_required
 def accept_friend(id):
     request = Friendship.query.filter_by(requester_id=id).first()
     if request:
         request.status = True
+        request.date = date_now()
         db.session.commit()
         flash('Friend added', 'success')
 

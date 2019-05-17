@@ -5,7 +5,7 @@ from CourtFinder import db
 from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.models.users import User
 
-from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator
+from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator, date_now
 from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm, CourtUpdateForm
 
 import json
@@ -44,12 +44,12 @@ def get_image(id, filename):
 @courts.route('/court/<id>', methods=['GET', 'POST'])
 def list_court(id):
     if request.method == 'GET':
-        
+
         court = Court.query.filter_by(id=id).first()
         court.images = get_images(str(court.id))
         reviews = court.reviews
 
-        return render_template('courts/courtProfile.html', Court=court, Reviews=reviews)
+        return render_template('courts/court_profile.html', Court=court, Reviews=reviews)
 
     elif request.method == 'POST':
         court = Court.query.filter_by(id=id).first()
@@ -64,19 +64,20 @@ def list_court(id):
             return redirect(url_for("courts.list_court", id=id))
 
         add_review = request.form.get('court_review')
-
-        user = User.query.filter_by(id=current_user.get_id()).first()
-        court_review = CourtReview.query.filter_by(user_id=user.id).filter_by(court_id=id).first()
+        court_review = CourtReview.query.filter_by(user_id=current_user.id).filter_by(court_id=id).first()
 
         # If a review doesnt exsist already make a new one
         if not court_review:
             court_review = CourtReview(
                 court_id=id,
-                user_id=user.id,
-                username=user.username,
-                review=add_review)
+                user_id=current_user.id,
+                username=current_user.username,
+                review=add_review,
+                date=date_now()
+            )
         else:
             court_review.review = add_review
+            court_review.date = date_now()
 
         db.session.add(court_review)
         db.session.commit()
@@ -104,7 +105,7 @@ def map_view():
     return render_template('courts/map.html', courts=courts)
 
 
-@courts.route('/CreateCourt', methods=['GET', 'POST'])
+@courts.route('/create/court', methods=['GET', 'POST'])
 @login_required
 def create_court():
     form = CourtCreationForm()
@@ -134,10 +135,10 @@ def create_court():
         flash('Court Created!', 'success')
         return redirect(url_for('courts.list_courts'))
     else:
-        return render_template('courts/CreateCourt.html', form=form)
+        return render_template('courts/create_court.html', form=form)
 
 
-@courts.route('/UpdateCourt/<id>', methods=['GET', 'POST'])
+@courts.route('/update/court/<id>', methods=['GET', 'POST'])
 def update_court(id):
     form = CourtUpdateForm()
     if form.validate_on_submit():
@@ -163,10 +164,10 @@ def update_court(id):
     else:
         court = Court.query.filter_by(id=id).first()
         form.description.data = court.description
-        return render_template('courts/UpdateCourt.html', court=court, form=form)
+        return render_template('courts/update_court.html', court=court, form=form)
 
 
-@courts.route('/DeleteCourt/<id>', methods=['GET'])
+@courts.route('/delete/court/<id>', methods=['GET'])
 def delete_court(id):
 
     if current_user.admin:

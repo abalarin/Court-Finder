@@ -1,4 +1,5 @@
 import os
+import datetime
 
 from CourtFinder.models.courts import Court
 from CourtFinder.config import Config
@@ -39,3 +40,7 @@ def id_validator(uid):
         id_validator(uuid.uuid4())
 
     return uid
+
+
+def date_now():
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
