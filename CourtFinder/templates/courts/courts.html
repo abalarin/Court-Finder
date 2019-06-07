@@ -61,18 +61,16 @@
 
         <p>{{ court.description }}</p>
 
-        {% if current_user.is_authenticated %}
+        {% if current_user.admin == True %}
         <a href="/update/court/{{court.id}}" class="btn btn-primary">
           Update
         </a>
 
-          {% if current_user.admin == True %}
-          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">
-            Delete
-          </button>
-          {% endif %}
-
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#DeleteCourt{{court.id}}">
+          Delete
+        </button>
         {% endif %}
+
       </div>
     </div>
 
@@ -119,7 +117,8 @@
 
 
 <!-- Footer -->
-{% if current_user.is_authenticated %}
+
+{% if current_user.admin == True %}
 <a href="/create/court" class="btn btn-primary btn-lg btn-block">
   Create-a-Court
 </a>
