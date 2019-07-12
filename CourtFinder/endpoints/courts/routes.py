@@ -113,62 +113,69 @@ def map_view():
 @login_required
 def create_court():
     form = CourtCreationForm()
-    if form.validate_on_submit():
-        # Make a unique listing ID
-        uid = str(id_validator(uuid.uuid4()))
+    if current_user.admin:
+        print("work?")
+        if form.validate_on_submit():
+            # Make a unique listing ID
+            uid = str(id_validator(uuid.uuid4()))
 
-        court = Court(
-            uid=uid,
-            address=form.address.data,
-            name=form.title.data,
-            total_courts=form.court_count.data,
-            total_visits=0,
-            lights=int(form.lights.data),
-            membership_required=int(form.status.data),
-            description=form.description.data,
-            latitude=form.latitude.data,
-            longitude=form.longitude.data)
+            court = Court(
+                uid=uid,
+                address=form.address.data,
+                name=form.title.data,
+                total_courts=form.court_count.data,
+                total_visits=0,
+                lights=int(form.lights.data),
+                membership_required=int(form.status.data),
+                description=form.description.data,
+                latitude=form.latitude.data,
+                longitude=form.longitude.data)
 
-        db.session.add(court)
-        db.session.commit()
+            db.session.add(court)
+            db.session.commit()
 
-        # Upload Images
-        court = Court.query.filter_by(uid=uid).first()
-        upload_images(request.files.getlist("court_images"), court.id)
+            # Upload Images
+            court = Court.query.filter_by(uid=uid).first()
+            upload_images(request.files.getlist("court_images"), court.id)
 
-        flash("Court Created!", "success")
-        return redirect(url_for("courts.list_courts"))
+            flash("Court Created!", "success")
+            return redirect(url_for("courts.list_courts"))
+        else:
+            return render_template("courts/create_court.html", form=form)
     else:
-        return render_template("courts/create_court.html", form=form)
+        return redirect(url_for("main.index"))
 
 
 @courts.route("/update/court/<id>", methods=["GET", "POST"])
 def update_court(id):
     form = CourtUpdateForm()
-    if form.validate_on_submit():
-        court = Court.query.filter_by(id=id).first()
+    if current_user.admin:
+        if form.validate_on_submit():
+            court = Court.query.filter_by(id=id).first()
 
-        court.adress = form.address.data
-        court.name = form.title.data
-        court.total_courts = form.court_count.data
-        court.total_visits = 0
-        court.lights = int(form.lights.data)
-        court.membership_required = int(form.status.data)
-        court.description = form.description.data
-        court.latitude = form.latitude.data
-        court.longitude = form.longitude.data
+            court.adress = form.address.data
+            court.name = form.title.data
+            court.total_courts = form.court_count.data
+            court.total_visits = 0
+            court.lights = int(form.lights.data)
+            court.membership_required = int(form.status.data)
+            court.description = form.description.data
+            court.latitude = form.latitude.data
+            court.longitude = form.longitude.data
 
-        # Upload Images
-        upload_images(request.files.getlist("court_images"), id)
+            # Upload Images
+            upload_images(request.files.getlist("court_images"), id)
 
-        db.session.commit()
-        flash("Your court has been updated!", "success")
-        return redirect(url_for("courts.list_courts"))
+            db.session.commit()
+            flash("Your court has been updated!", "success")
+            return redirect(url_for("courts.list_courts"))
 
+        else:
+            court = Court.query.filter_by(id=id).first()
+            form.description.data = court.description
+            return render_template("courts/update_court.html", court=court, form=form)
     else:
-        court = Court.query.filter_by(id=id).first()
-        form.description.data = court.description
-        return render_template("courts/update_court.html", court=court, form=form)
+        return redirect(url_for("main.index"))
 
 
 @courts.route("/delete/court/<id>", methods=["GET"])
