@@ -14,5 +14,9 @@ class Config:
     # Gets pwd and declares it is the root dir for the App
     APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+    #  boto3 Keys for Object Storage
+    BOTO_KEY = os.environ.get('BOTO_KEY')
+    BOTO_SECRET = os.environ.get('BOTO_SECRET')
+
     # To suppress FSADeprecationWarning
     SQLALCHEMY_TRACK_MODIFICATIONS = False

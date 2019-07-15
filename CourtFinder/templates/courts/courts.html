@@ -39,7 +39,7 @@
   <div class="row">
 
     <div class="col-md-4 court-profile">
-      <img class="img-responsive" src="{{url_for('courts.get_image', id=court.id, filename=court.images[0])}}" onerror="this.onerror=null;this.src='/static/images/nocourtimage.jpg';">
+      <img class="img-responsive" src="{{court.images[0]}}" onerror="this.onerror=null;this.src='/static/images/nocourtimage.jpg';">
 
     </div>
 

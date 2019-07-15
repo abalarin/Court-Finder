@@ -47,7 +47,7 @@
           {% if Court.images|length %}
           {% for image in Court.images %}
           <div class="carousel-item court-carousel-item item{% if loop.index == 1 %} active{% endif %}">
-            <img class="d-block w-100 carousel-img" src="{{url_for('courts.get_image', id=Court.id, filename=image)}}">
+            <img class="d-block w-100 carousel-img" src="{{image}}">
           </div>
           {% endfor %}
           {% else %}

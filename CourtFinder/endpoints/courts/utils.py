@@ -1,8 +1,11 @@
 import os
 import datetime
+from flask import jsonify
 
+from CourtFinder import client
 from CourtFinder.models.courts import Court
 from CourtFinder.config import Config
+
 
 def upload_images(images, id):
 
@@ -19,17 +22,6 @@ def upload_images(images, id):
         destination = "/".join([target, filename])
         image.save(destination)
 
-
-def get_images(id):
-    # Create a path with the ID & the root of our App
-    target = os.path.join(Config.APP_ROOT, 'static/images/courts/' + id)
-
-    # If path exsists we have images! Return them all
-    if os.path.isdir(target):
-        return os.listdir(target)
-
-    return False
-
 # Validate the unique ID of our new listing to prevent collisions
 def id_validator(uid):
     # Query for any listing where id matches uid
@@ -44,3 +36,32 @@ def id_validator(uid):
 
 def date_now():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def list_courts():
+    return client.list_objects(Bucket='courtfinder', Prefix='courts/', Delimiter='/')
+
+
+def get_URL(file_name):
+    return client.generate_presigned_post(Bucket='courtfinder', Key=file_name)
+
+
+def get_images(court):
+    try:
+        prefix = 'courts/' + str(court) + '/'
+        result = client.list_objects(Bucket='courtfinder', Prefix=prefix, Delimiter='/')
+
+        image_urls = []
+        skipthedir = 0  # becuase the directory itself is also retrived we want to skip it
+        for object in result.get('Contents'):
+            if skipthedir > 0:
+                url = get_URL(object.get('Key'))
+                image_urls.append(url.get('url') + '/' + url.get('fields')['key'])
+            else:
+                skipthedir += 1
+
+        return image_urls
+
+    except Exception as e:
+        print(e)
+        return jsonify({"error": "There was a problem with the data you provided."})

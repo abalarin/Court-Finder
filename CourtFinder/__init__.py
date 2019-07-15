@@ -4,6 +4,12 @@ from flask_marshmallow import Marshmallow
 from flask_login import LoginManager
 
 from CourtFinder.config import Config
+from CourtFinder.s3config.configer import getConfig
+from CourtFinder.s3config.authBoto import botoClient, botoResource
+
+config = getConfig(Config.APP_ROOT + '/s3config/config.ini')
+client = botoClient(Config.BOTO_KEY, Config.BOTO_SECRET, config['object_api']['base_url'], config['object_api']['user'])
+resource = botoResource(Config.BOTO_KEY, Config.BOTO_SECRET, config['object_api']['base_url'], config['object_api']['user'])
 
 db = SQLAlchemy()
 login_manager = LoginManager()

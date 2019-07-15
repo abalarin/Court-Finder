@@ -11,5 +11,7 @@ setup(
         'flask-security',
         'mysqlclient',
         'googlemaps',
+        'boto3',
+        'configparser',
     ]
 )

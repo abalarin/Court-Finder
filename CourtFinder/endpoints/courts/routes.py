@@ -23,7 +23,9 @@ def list_courts():
 
         # Get images for each listing
         for court in courts:
-            court.images = get_images(str(court.id))
+            court.images = get_images(court.id)
+
+        get_images(str('3'))
 
         return render_template("courts/courts.html", Courts=courts, form=form)
 
@@ -36,9 +38,9 @@ def list_courts():
         return render_template("courts/courts.html", Courts=court, form=form)
 
 
-@courts.route("/images/<id>/<filename>")
-def get_image(id, filename):
-    return send_from_directory("static/images/courts/", id + "/" + filename)
+# @courts.route("/images/<id>/<filename>")
+# def get_image(id, filename):
+#     return send_from_directory("static/images/courts/", id + "/" + filename)
 
 
 @courts.route("/court/<id>", methods=["GET", "POST"])
@@ -46,7 +48,7 @@ def list_court(id):
     if request.method == "GET":
 
         court = Court.query.filter_by(id=id).first()
-        court.images = get_images(str(court.id))
+        court.images = get_images(court.id)
         reviews = court.reviews
 
         return render_template("courts/court_profile.html", Court=court, Reviews=reviews)
@@ -114,7 +116,6 @@ def map_view():
 def create_court():
     form = CourtCreationForm()
     if current_user.admin:
-        print("work?")
         if form.validate_on_submit():
             # Make a unique listing ID
             uid = str(id_validator(uuid.uuid4()))
