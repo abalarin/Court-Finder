@@ -29,14 +29,6 @@ def list_courts():
 
         return render_template("courts/courts.html", Courts=courts, form=form)
 
-    else:
-        tpe = form.type.data
-        dist = form.distance.data
-        lght = form.lights.data
-
-        court = Court.query.filter((Court.lights == lght) & (Court.membership_required == tpe)).all()
-        return render_template("courts/courts.html", Courts=court, form=form)
-
 
 # @courts.route("/images/<id>/<filename>")
 # def get_image(id, filename):
@@ -52,6 +44,7 @@ def list_court(id):
         reviews = court.reviews
 
         return render_template("courts/court_profile.html", Court=court, Reviews=reviews)
+
 
 @courts.route("/court/<id>/review", methods=["POST"])
 @login_required
@@ -88,7 +81,6 @@ def add_review(id):
     db.session.commit()
 
     return redirect(url_for("courts.list_court", id=id))
-
 
 
 @courts.route("/map")
