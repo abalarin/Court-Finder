@@ -25,8 +25,6 @@ def list_courts():
         for court in courts:
             court.images = get_images(court.id)
 
-        get_images(str('3'))
-
         return render_template("courts/courts.html", Courts=courts, form=form)
 
 
