@@ -38,6 +38,10 @@ def list_court(id):
     if request.method == "GET":
 
         court = Court.query.filter_by(id=id).first()
+
+        if court is None:
+            return redirect(url_for('courts.list_courts'))
+
         court.images = get_images(court.id)
         reviews = court.reviews
 

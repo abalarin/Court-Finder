@@ -1,6 +1,7 @@
 flaskenv
 venv
 
+CourtFinder/config.py
 CourtFinder/config.pyc
 
 CourtFinder.egg-info
