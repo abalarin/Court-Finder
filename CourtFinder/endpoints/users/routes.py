@@ -14,9 +14,7 @@ users = Blueprint('users', __name__)
 
 
 @users.route('/profile')
-def profile(template):
-    print(request.user_agent.browser)
-    print(request.user_agent.platform)
+def profile():
     if current_user.is_authenticated:
         return render_template("users/profile.html", user=current_user)
     else:
