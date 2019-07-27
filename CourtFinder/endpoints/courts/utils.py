@@ -1,6 +1,11 @@
 import os
 import datetime
+import tempfile
+import shutil
+import contextlib
+
 from flask import jsonify
+from werkzeug.utils import secure_filename
 
 from CourtFinder import client
 from CourtFinder.models.courts import Court
@@ -37,6 +42,44 @@ def id_validator(uid):
 def date_now():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
+@contextlib.contextmanager
+def cd(newdir, cleanup=lambda: True):
+    prevdir = os.getcwd()
+    os.chdir(os.path.expanduser(newdir))
+    try:
+        yield
+    finally:
+        os.chdir(prevdir)
+        cleanup()
+
+@contextlib.contextmanager
+def tempdir():
+    dirpath = tempfile.mkdtemp()
+    def cleanup():
+        shutil.rmtree(dirpath)
+    with cd(dirpath, cleanup):
+        yield dirpath
+
+def create_court_images(images, id):
+    location = 'courts/' + str(id) + '/'
+    client.put_object(ACL='public-read', Bucket='courtfinder', Key=location)
+    with tempdir() as dirpath:
+        for image in images:
+
+            filename = secure_filename(secure_filename(image.filename))
+            filepath = os.path.join(dirpath, filename)
+            image.save(filepath)
+
+            target = 'courts/' + str(id) + '/' + filename
+            client.upload_file(filepath, 'courtfinder', target, {'ACL':'public-read'})
+
+def delete_court_images(id):
+    prefix = 'courts/' + str(id) + '/'
+    keys = []
+    for object in client.list_objects(Bucket='courtfinder', Prefix=prefix, Delimiter='/')['Contents']:
+        keys.append({'Key' : object['Key']})
+
+    client.delete_objects(Bucket='courtfinder', Delete={'Objects' : keys})
 
 def list_courts():
     return client.list_objects(Bucket='courtfinder', Prefix='courts/', Delimiter='/')

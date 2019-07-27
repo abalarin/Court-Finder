@@ -5,7 +5,7 @@ from CourtFinder import db
 from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.models.users import User
 
-from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator, date_now
+from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator, date_now, create_court_images, delete_court_images
 from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm, CourtUpdateForm
 
 import json
@@ -131,7 +131,7 @@ def create_court():
 
             # Upload Images
             court = Court.query.filter_by(uid=uid).first()
-            upload_images(request.files.getlist("court_images"), court.id)
+            create_court_images(request.files.getlist("court_images"), court.id)
 
             flash("Court Created!", "success")
             return redirect(url_for("courts.list_courts"))
@@ -159,7 +159,7 @@ def update_court(id):
             court.longitude = form.longitude.data
 
             # Upload Images
-            upload_images(request.files.getlist("court_images"), id)
+            create_court_images(request.files.getlist("court_images"), id)
 
             db.session.commit()
             flash("Your court has been updated!", "success")
@@ -182,6 +182,7 @@ def delete_court(id):
             db.session.delete(court)
             db.session.commit()
 
+            delete_court_images(id)
             flash("Court has been deleted", "success")
             return redirect(url_for("courts.list_courts"))
     else:
