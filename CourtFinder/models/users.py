@@ -24,11 +24,11 @@ class User(db.Model, UserMixin):
 
     favorite_court = db.Column(db.Integer, db.ForeignKey('court.id'))
 
-    reviews = db.relationship('CourtReview', backref='user')
+    reviews = db.relationship('CourtReview', backref='user', lazy=True)
 
     # Friend Request relationships
-    friend_requests = db.relationship('Friendship', foreign_keys='Friendship.requester_id', backref='requester')
-    friends_requested = db.relationship('Friendship', foreign_keys='Friendship.requested_id', backref='requested')
+    friend_requests = db.relationship('Friendship', foreign_keys='Friendship.requester_id', backref='requester', lazy=True)
+    friends_requested = db.relationship('Friendship', foreign_keys='Friendship.requested_id', backref='requested', lazy=True)
 
     def __repr__(self):
         return '<User %r>' % self.username

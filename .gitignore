@@ -1,10 +1,10 @@
-flaskenv
 venv
+.venv
 
 CourtFinder/config.py
 CourtFinder/config.pyc
 
-CourtFinder.egg-info
+*.egg-info
 *.xml
 *.iml
 *.pyc

@@ -2,6 +2,10 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from passlib.hash import sha256_crypt
 
+from flask_mobility import Mobility
+from flask_mobility.decorators import mobile_template
+
+
 from CourtFinder import db
 from CourtFinder.models.users import User, Friendship
 from CourtFinder.models.courts import Court, CourtReview
@@ -14,7 +18,10 @@ users = Blueprint('users', __name__)
 
 
 @users.route('/profile')
-def profile():
+@mobile_template('{mobile/}test.html')
+def profile(template):
+    print(request.user_agent.browser)
+    print(request.user_agent.platform)
     if current_user.is_authenticated:
         return render_template("users/profile.html", user=current_user)
     else:

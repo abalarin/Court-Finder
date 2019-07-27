@@ -15,8 +15,8 @@ class Court(db.Model):
     longitude = db.Column(db.Numeric(11, 8))
 
     # One to Many relationships
-    reviews = db.relationship('CourtReview', backref='court')
-    user_favorite = db.relationship('User', backref='court')
+    reviews = db.relationship('CourtReview', backref='court', lazy=True)
+    user_favorite = db.relationship('User', backref='court', lazy=True)
 
     def __repr__(self):
         return '<Court %r>' % self.name
