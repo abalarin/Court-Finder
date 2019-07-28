@@ -5,7 +5,7 @@ class Court(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     uid = db.Column(db.String(255), unique=True, nullable=False)
     address = db.Column(db.String(60), nullable=False)
-    name = db.Column(db.String(20), nullable=False)
+    name = db.Column(db.String(80), nullable=False)
     total_courts = db.Column(db.Integer, default=1)
     total_visits = db.Column(db.Integer, default=0)
     lights = db.Column(db.Boolean)
