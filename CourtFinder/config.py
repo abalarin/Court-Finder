@@ -18,5 +18,8 @@ class Config:
     BOTO_KEY = os.environ.get('BOTO_KEY')
     BOTO_SECRET = os.environ.get('BOTO_SECRET')
 
+    # Google Maps API
+    GOOGLE_API_KEY = os.environ.get('GOOGLE_API_KEY')
+
     # To suppress FSADeprecationWarning
     SQLALCHEMY_TRACK_MODIFICATIONS = False

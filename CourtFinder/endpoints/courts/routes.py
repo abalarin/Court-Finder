@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash,
 from flask_login import login_required, current_user
 
 from CourtFinder import db
+from CourtFinder.config import Config
 from CourtFinder.models.courts import Court, CourtReview
 from CourtFinder.models.users import User
 
@@ -102,7 +103,7 @@ def map_view():
             }
         }
 
-    return render_template("courts/map.html", courts=courts)
+    return render_template("courts/map.html", courts=courts, google_api_key=Config.GOOGLE_API_KEY)
 
 
 @courts.route("/create/court", methods=["GET", "POST"])
