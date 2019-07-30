@@ -13,7 +13,7 @@ class CourtSearch(FlaskForm):
 class CourtCreationForm(FlaskForm):
     """docstring for CourtCreationForm."""
 
-    title = StringField('Court Name', validators=[DataRequired(), Length(min=2, max=40)])
+    title = StringField('Court Name', validators=[DataRequired(), Length(min=2, max=75)])
     address = StringField('Court Address', validators=[DataRequired()])
     latitude = StringField('Latitude', validators=[DataRequired()])
     longitude = StringField('Longitude', validators=[DataRequired()])
