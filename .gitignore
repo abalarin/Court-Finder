@@ -3,6 +3,7 @@ venv
 
 CourtFinder/config.py
 CourtFinder/config.pyc
+CourtFinder/config.json
 
 *.egg-info
 *.xml
