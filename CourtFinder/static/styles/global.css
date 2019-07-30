@@ -1,20 +1,23 @@
-ul {
-  list-style-type: none;
+html {
+  position: relative;
+  min-height: 100%;
+  background: #fafafa;
 }
 
-h1 {
-  color: red;
+body {
+  background: #fafafa;
 }
 
 .body {
   margin-top: 60px;
   margin-bottom: 90px;
+  background: #fafafa;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+ul {
+  list-style-type: none;
 }
+
 .navbar {
   z-index: 100
 }
