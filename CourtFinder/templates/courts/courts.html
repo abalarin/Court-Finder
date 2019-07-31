@@ -14,26 +14,23 @@
 <div class="card court">
   <div class="row">
 
-    <div class="col-md-4 court-profile">
+    <div class="col-md-4 court-profile ">
       <img class="img-responsive" src="{{court.images[0]}}" onerror="this.onerror=null;this.src='/static/images/nocourtimage.jpg';">
-
     </div>
 
-    <div class="col-md">
-      <div class="card-body">
+    <div class="col court-info">
+      <div class="card-body court-info-col">
         <a href="/court/{{court.id}}" id="court_title">
           <h1>{{ court.name }}</h1>
         </a>
-        <h6>{{ court.address }}</h6>
 
-        <div class="row">
-          <div class="col-md-3">
-            <p>Rating: N/A{{court.rating}}</p>
-          </div>
-          <div class="col-md-6">
-            <p>Membership Required: {{ court.membership_required }}</p>
-          </div>
-        </div>
+        <h2>Rating: N/A{{court.rating}} </h2>
+
+        {% if court.membership_required == False %}
+          <h2 class="text-muted">Public</h2>
+        {% else %}
+          <h2 class="text-muted">Private</h2>
+        {% endif %}
 
         <p>{{ court.description }}</p>
 
@@ -48,6 +45,10 @@
         {% endif %}
 
       </div>
+    </div>
+
+    <div class="col-sm address-col text-right">
+      <h6>{{ court.address }}</h6>
     </div>
 
   </div>

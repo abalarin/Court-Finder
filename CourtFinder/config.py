@@ -9,7 +9,7 @@ with open(os.path.dirname(os.path.abspath(__file__)) + '/config.json') as config
 
 class Config:
 
-    SECRET_KEY = os.urandom(12)
+    SECRET_KEY = 'a' #os.urandom(12)
 
     DB_USER = config.get('DB_USER')
     DB_PASS = config.get('DB_PASS')

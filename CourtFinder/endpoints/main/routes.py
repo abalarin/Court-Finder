@@ -18,7 +18,7 @@ def index():
 
     mobile_check = request.user_agent.platform
     if mobile_check == 'iphone' or mobile_check == 'android':
-        return redirect("https://m.findthecourt.com/", code=200)
+        return redirect("https://m.findthecourt.com/")
 
     if form.validate_on_submit():
         # Create user object to insert into SQL

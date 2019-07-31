@@ -41,53 +41,69 @@
   <div class="row">
 
     <div class="col-md-4">
-      <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
 
-        <div class="carousel-inner">
-          {% if Court.images|length %}
-          {% for image in Court.images %}
-          <div class="carousel-item court-carousel-item item{% if loop.index == 1 %} active{% endif %}">
-            <img class="d-block w-100 carousel-img" src="{{image}}">
-          </div>
-          {% endfor %}
-          {% else %}
-          <div class="carousel-item active">
-            <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="d-block w-100" alt="...">
-          </div>
-          {% endif %}
+      <div class="row">
+        <div class="col action-col">
+          <a class="btn btn-outline-secondary" href="/favorite/{{Court.id}}">
+            <img class="icons" src="/static/open-iconic/svg/bookmark.svg">
+            Save
+          </a>
+          <a class="btn btn-outline-secondary" href="/add/photo/court/{{Court.id}}">
+            <img class="icons" src="/static/open-iconic/svg/camera-slr.svg">
+            Add Photo
+          </a>
+          <a class="btn btn-outline-secondary" href="#">
+            <img class="icons" src="/static/open-iconic/svg/star.svg">
+            Review
+          </a>
+
         </div>
+      </div>
 
-        <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+      <div class="row">
+        <div id="carouselExampleInterval" class="carousel slide" data-ride="carousel">
+
+          <div class="carousel-inner">
+            {% if Court.images|length %}
+            {% for image in Court.images %}
+            <div class="carousel-item court-carousel-item item{% if loop.index == 1 %} active{% endif %}">
+              <img class="d-block w-100 carousel-img" src="{{image}}">
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="carousel-item active">
+              <img src="https://s3-media2.fl.yelpcdn.com/bphoto/rztnIqWOVqAXyj-mhnkSbQ/ls.jpg" class="d-block w-100" alt="...">
+            </div>
+            {% endif %}
+          </div>
+
+          <a class="carousel-control-prev" href="#carouselExampleInterval" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleInterval" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+        </div>
       </div>
 
     </div>
 
     <div class="col-md">
       <div class="card-body">
-        <h1>
-          {{ Court.name }}
-          <a class="btn btn-outline-secondary" href="/favorite/{{Court.id}}">
-            <img class="bookmark" src="/static/open-iconic/svg/bookmark.svg">
-            Favorite
-          </a>
-        </h1>
-        <h6>{{ Court.address }}</h6>
+        <h1>{{ Court.name }} </h1>
 
-        <div class="row">
-          <div class="col-md-3">
-            <p>Rating: N/A{{Court.rating}}</p>
-          </div>
-          <div class="col-md-6">
-            <p>Membership Required: {{ Court.membership_required }}</p>
-          </div>
-        </div>
+
+        <h2>Rating: N/A{{Court.rating}}</h2>
+
+        {% if Court.membership_required == False %}
+          <h2 class="text-muted">Public</h2>
+        {% else %}
+          <h2 class="text-muted">Private</h2>
+        {% endif %}
+
+        <h3>{{ Court.address }}</h3>
 
         <p>{{ Court.description }}</p>
 

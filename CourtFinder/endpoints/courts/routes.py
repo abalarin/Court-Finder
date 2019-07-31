@@ -173,6 +173,18 @@ def update_court(id):
     else:
         return redirect(url_for("main.index"))
 
+@courts.route("/add/photo/court/<id>", methods=["GET", "POST"])
+@login_required
+def add_photo(id):
+    if request.method == "GET":
+
+        court = Court.query.filter_by(id=id).first()
+
+        if court is None:
+            return redirect(url_for('courts.list_courts'))
+
+
+        return render_template('courts/add_photo.html', Court=court)
 
 @courts.route("/delete/court/<id>", methods=["GET"])
 def delete_court(id):

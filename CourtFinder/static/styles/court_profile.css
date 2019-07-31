@@ -1,3 +1,24 @@
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+.icons {
+  width: 25px;
+}
+
+.action-col {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 .court-container {
   margin-top: 20px;
 }
@@ -16,10 +37,6 @@
 
 .court-carousel-item img{
   height: 100%;
-}
-
-.bookmark {
-  width: 25px;
 }
 
 .review-profile-img{
