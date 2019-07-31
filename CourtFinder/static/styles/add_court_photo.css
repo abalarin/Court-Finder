@@ -2,26 +2,30 @@ h1 {
   font-size: 35px;
 }
 
+.icons {
+  width: 25px;
+}
+
 .title {
   margin-top: -40px;
 }
 
-
-#drop_file_zone {
-    background-color: #EEE;
-    border: #999 5px dashed;
-    width: 290px;
-    height: 200px;
-    padding: 8px;
-    font-size: 18px;
-}
-#drag_upload_file {
-  width:50%;
-  margin:0 auto;
-}
-#drag_upload_file p {
-  text-align: center;
-}
-#drag_upload_file #selectfile {
+.upload-btn {
   display: none;
+}
+
+.custom-file {
+  margin-top: 25px;
+}
+
+.image-upload {
+  width: 200px;
+  height: 200px;
+  margin: 15px;
+}
+
+.photos {
+  margin-top: 30px;
+  overflow-y: auto;
+  height: 500px;
 }

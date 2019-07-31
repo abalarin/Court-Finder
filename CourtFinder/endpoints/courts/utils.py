@@ -63,10 +63,12 @@ def tempdir():
 def create_court_images(images, id):
     location = 'courts/' + str(id) + '/'
     client.put_object(ACL='public-read', Bucket='courtfinder', Key=location)
+
+    uris = []
     with tempdir() as dirpath:
         for image in images:
 
-            filename = secure_filename(secure_filename(image.filename))
+            filename = secure_filename(image.filename)
             filepath = os.path.join(dirpath, filename)
             image.save(filepath)
 

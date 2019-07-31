@@ -25,10 +25,12 @@ class User(db.Model, UserMixin):
     favorite_court = db.Column(db.Integer, db.ForeignKey('court.id'))
 
     reviews = db.relationship('CourtReview', backref='user', lazy=True)
+    photos = db.relationship('CourtPhoto', backref='user', lazy=True)
 
     # Friend Request relationships
     friend_requests = db.relationship('Friendship', foreign_keys='Friendship.requester_id', backref='requester', lazy=True)
     friends_requested = db.relationship('Friendship', foreign_keys='Friendship.requested_id', backref='requested', lazy=True)
+
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -41,12 +43,22 @@ class Friendship(db.Model):
     status = db.Column(db.Boolean, default=None)
     date = db.Column(db.DateTime, nullable=False)
 
+class CourtPhoto(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    url = db.Column(db.String(255), nullable=False)
+    uploader_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    court_id = db.Column(db.Integer, db.ForeignKey('court.id'), nullable=False)
+    upload_date = db.Column(db.DateTime, nullable=False)
 
+# -- Schemas --
 class UserSchema(ma.Schema):
     class Meta:
         fields = ("first_name", "last_name", "username", "password", "email", "height", "weight", "court_visits", "skill_level", "admin", "friend_count")
 
-
 class FriendshipSchema(ma.Schema):
     class Meta:
         fields = ("requester_id", "requester_id", "status")
+
+class CourtPhotoSchema(ma.Schema):
+    class Meta:
+        fields = ("url", "uploader_id", "court_id", "upload_date")

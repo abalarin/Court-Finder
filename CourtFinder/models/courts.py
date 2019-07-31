@@ -17,6 +17,7 @@ class Court(db.Model):
     # One to Many relationships
     reviews = db.relationship('CourtReview', backref='court', lazy=True)
     user_favorite = db.relationship('User', backref='court', lazy=True)
+    court_photos = db.relationship('CourtPhoto', backref='court', lazy=True)
 
     def __repr__(self):
         return '<Court %r>' % self.name

@@ -1,16 +1,18 @@
+import json
+import uuid
+
 from flask import Blueprint, render_template, redirect, url_for, request, flash, jsonify, send_from_directory
 from flask_login import login_required, current_user
+
+from werkzeug.utils import secure_filename
 
 from CourtFinder import db
 from CourtFinder.config import Config
 from CourtFinder.models.courts import Court, CourtReview
-from CourtFinder.models.users import User
+from CourtFinder.models.users import User, CourtPhoto
 
 from CourtFinder.endpoints.courts.utils import upload_images, get_images, id_validator, date_now, create_court_images, delete_court_images
 from CourtFinder.endpoints.courts.forms import CourtSearch, CourtCreationForm, CourtUpdateForm
-
-import json
-import uuid
 
 courts = Blueprint("courts", __name__)
 
@@ -27,11 +29,6 @@ def list_courts():
             court.images = get_images(court.id)
 
         return render_template("courts/courts.html", Courts=courts, form=form)
-
-
-# @courts.route("/images/<id>/<filename>")
-# def get_image(id, filename):
-#     return send_from_directory("static/images/courts/", id + "/" + filename)
 
 
 @courts.route("/court/<id>", methods=["GET", "POST"])
@@ -173,6 +170,7 @@ def update_court(id):
     else:
         return redirect(url_for("main.index"))
 
+
 @courts.route("/add/photo/court/<id>", methods=["GET", "POST"])
 @login_required
 def add_photo(id):
@@ -183,8 +181,23 @@ def add_photo(id):
         if court is None:
             return redirect(url_for('courts.list_courts'))
 
-
         return render_template('courts/add_photo.html', Court=court)
+    else:
+        object_storage_base = "https://us-east-1.linodeobjects.com/courtfinder/courts/"
+        for image in request.files.getlist("court_images"):
+            photo = CourtPhoto(
+                url=object_storage_base + id + "/" + secure_filename(image.filename),
+                uploader_id=current_user.id,
+                court_id=id,
+                upload_date=date_now()
+            )
+            db.session.add(photo)
+
+        db.session.commit()
+        create_court_images(request.files.getlist("court_images"), id)
+
+        return redirect(url_for('courts.list_court', id=id))
+
 
 @courts.route("/delete/court/<id>", methods=["GET"])
 def delete_court(id):

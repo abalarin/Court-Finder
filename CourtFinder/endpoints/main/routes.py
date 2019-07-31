@@ -15,7 +15,7 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = RegistrationForm()
-
+    
     mobile_check = request.user_agent.platform
     if mobile_check == 'iphone' or mobile_check == 'android':
         return redirect("https://m.findthecourt.com/")
