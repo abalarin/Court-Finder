@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect, url_for, flash
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, current_user
 from passlib.hash import sha256_crypt
 import datetime
@@ -15,7 +15,10 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = RegistrationForm()
-    db.create_all()
+
+    mobile_check = request.user_agent.platform
+    if mobile_check == 'iphone' or mobile_check == 'android':
+        return redirect("https://m.findthecourt.com/", code=200)
 
     if form.validate_on_submit():
         # Create user object to insert into SQL
