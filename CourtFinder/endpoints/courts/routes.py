@@ -51,9 +51,10 @@ def list_court(id):
 def add_review(id):
     court = Court.query.filter_by(id=id).first()
     review = request.form.get("court_review")
+    rating = request.form.get("rate")
 
     # Make sure theres a review typed in
-    if review == '':
+    if review == None or review == '':
         flash("Please enter a review!", "danger")
         return redirect(url_for("courts.list_court", id=id))
 
@@ -61,7 +62,7 @@ def add_review(id):
         flash("Please enter a review shorter then 250 characters", "danger")
         return redirect(url_for("courts.list_court", id=id))
 
-    add_review = request.form.get("court_review")
+
     court_review = CourtReview.query.filter_by(user_id=current_user.id).filter_by(court_id=id).first()
 
     # If a review doesnt exsist already make a new one
@@ -70,11 +71,13 @@ def add_review(id):
             court_id=id,
             user_id=current_user.id,
             username=current_user.username,
-            review=add_review,
+            rating=rating,
+            review=review,
             date=date_now()
         )
     else:
-        court_review.review = add_review
+        court_review.rating = rating
+        court_review.review = review
         court_review.date = date_now()
 
     db.session.add(court_review)

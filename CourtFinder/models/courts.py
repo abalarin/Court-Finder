@@ -28,7 +28,7 @@ class CourtReview(db.Model):
     court_id = db.Column(db.Integer, db.ForeignKey('court.id'), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     username = db.Column(db.String(40))
-    raiting = db.Column(db.Integer)
+    rating = db.Column(db.Integer)
     review = db.Column(db.String(250))
     date = db.Column(db.DateTime, nullable=False)
 
@@ -40,4 +40,4 @@ class CourtSchema(ma.Schema):
 
 class CourtReviewSchema(ma.Schema):
     class Meta:
-        fields = ("court_id", "user_id", "username", "raiting", "review")
+        fields = ("court_id", "user_id", "username", "rating", "review")

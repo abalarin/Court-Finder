@@ -17,6 +17,11 @@ class Config:
     # Connection to Postgres server
     SQLALCHEMY_DATABASE_URI = 'mysql://' + DB_USER + ':' + DB_PASS + '@192.155.88.112:3306/courtfinder'
 
+    # Set SQLAlchemy Connection Timeout Limits
+    SQLALCHEMY_POOL_RECYCLE = 499
+    SQLALCHEMY_POOL_TIMEOUT = 20
+
+
     # Gets pwd and declares it is the root dir for the App
     APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 

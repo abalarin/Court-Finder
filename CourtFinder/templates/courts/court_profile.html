@@ -37,6 +37,49 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD5Sr3oT1HlWBky0ex_akZc-uuNUWy51E8&callback=myMap">
 </script>
 
+<!-- Review Modal -->
+
+<form method="POST" action="/court/{{Court.id}}/review">
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+
+          <!-- Title -->
+          <div class="row">
+            <div class="col">
+              <h5 class="modal-title" id="exampleModalLabel">{{Court.name}}</h5>
+            </div>
+            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+
+          <!-- Stars Rating -->
+          <div class="rate">
+            <input type="radio" id="star5" name="rate" value="5" />
+            <label for="star5" title="text">5 stars</label>
+            <input type="radio" id="star4" name="rate" value="4" />
+            <label for="star4" title="text">4 stars</label>
+            <input type="radio" id="star3" name="rate" value="3" />
+            <label for="star3" title="text">3 stars</label>
+            <input type="radio" id="star2" name="rate" value="2" />
+            <label for="star2" title="text">2 stars</label>
+            <input type="radio" id="star1" name="rate" value="1" />
+            <label for="star1" title="text">1 star</label>
+          </div>
+
+          <textarea class="form-control" name="court_review" rows="5"></textarea>
+
+
+          <button type="submit" class="btn btn-primary review-btn">Submit Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- Review Modal -->
+
 <div class="court-container">
   <div class="row">
 
@@ -52,7 +95,7 @@
             <img class="icons" src="/static/open-iconic/svg/camera-slr.svg">
             Add Photo
           </a>
-          <a class="btn btn-outline-secondary" href="#">
+          <a class="btn btn-outline-secondary" href="#" data-toggle="modal" data-target="#exampleModal">
             <img class="icons" src="/static/open-iconic/svg/star.svg">
             Review
           </a>
@@ -98,9 +141,9 @@
         <h2>Rating: N/A{{Court.rating}}</h2>
 
         {% if Court.membership_required == False %}
-          <h2 class="text-muted">Public</h2>
+        <h2 class="text-muted">Public</h2>
         {% else %}
-          <h2 class="text-muted">Private</h2>
+        <h2 class="text-muted">Private</h2>
         {% endif %}
 
         <h3>{{ Court.address }}</h3>
@@ -131,7 +174,7 @@
   {% endfor %}
 </div>
 
-<div class="add-review">
+<!-- <div class="add-review">
   <form method="POST" action="/court/{{Court.id}}/review">
     <div class="form-group">
       <h2 class="text-center"> Add Review</h2>
@@ -140,7 +183,7 @@
 
     <button type="submit" class="btn btn-primary btn-block">Submit</button>
   </form>
-</div>
+</div> -->
 
 
 {% endblock %}

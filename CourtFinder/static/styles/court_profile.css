@@ -14,6 +14,53 @@ h3 {
   width: 25px;
 }
 
+/* Star Rating CSS */
+.rate {
+    float: left;
+    height: 46px;
+    padding: 0 10px;
+    margin-bottom: 10px;
+}
+.rate:not(:checked) > input {
+    position:absolute;
+    top:-9999px;
+}
+.rate:not(:checked) > label {
+    float:right;
+    width:1em;
+    overflow:hidden;
+    white-space:nowrap;
+    cursor:pointer;
+    font-size:30px;
+    color:#ccc;
+}
+.rate:not(:checked) > label:before {
+    content: '★ ';
+}
+.rate > input:checked ~ label {
+    color: #ffc700;
+}
+.rate:not(:checked) > label:hover,
+.rate:not(:checked) > label:hover ~ label {
+    color: #deb217;
+}
+.rate > input:checked + label:hover,
+.rate > input:checked + label:hover ~ label,
+.rate > input:checked ~ label:hover,
+.rate > input:checked ~ label:hover ~ label,
+.rate > label:hover ~ input:checked ~ label {
+    color: #c59b08;
+}
+/* Star Rating CSS */
+
+.close-btn {
+  margin-top: -5px;
+  margin-right: 15px;
+}
+.review-btn {
+  margin-top: 15px;
+}
+
 .action-col {
   margin-top: 20px;
   margin-bottom: 20px;
