@@ -6,8 +6,12 @@ class Court(db.Model):
     uid = db.Column(db.String(255), unique=True, nullable=False)
     address = db.Column(db.String(60), nullable=False)
     name = db.Column(db.String(80), nullable=False)
+
     total_courts = db.Column(db.Integer, default=1)
     total_visits = db.Column(db.Integer, default=0)
+    total_ratings = db.Column(db.Integer, default=0)
+    average_rating = db.Column(db.Integer, default=0)
+
     lights = db.Column(db.Boolean)
     membership_required = db.Column(db.Boolean)
     description = db.Column(db.String(200))
@@ -35,7 +39,7 @@ class CourtReview(db.Model):
 
 class CourtSchema(ma.Schema):
     class Meta:
-        fields = ("uid", "address", "name", "total_courts", "total_visits", "lights", "membership_required", "description", "latitude", "longitude")
+        fields = ("uid", "address", "name", "total_courts", "total_visits", "total_ratings", "average_rating", "lights", "membership_required", "description", "latitude", "longitude")
 
 
 class CourtReviewSchema(ma.Schema):

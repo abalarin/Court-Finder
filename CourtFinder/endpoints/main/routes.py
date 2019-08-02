@@ -15,7 +15,7 @@ main = Blueprint('main', __name__)
 @main.route('/', methods=['GET', 'POST'])
 def index():
     form = RegistrationForm()
-    
+
     mobile_check = request.user_agent.platform
     if mobile_check == 'iphone' or mobile_check == 'android':
         return redirect("https://m.findthecourt.com/")
@@ -36,11 +36,23 @@ def index():
             flash('User already exsists!', 'danger')
             return render_template('index.html', form=form)
         else:
-            db.session.add(new_user)
-            db.session.commit()
+            try:
+                db.session.add(new_user)
+                db.session.commit()
 
-            # Init session vars
-            login_user(new_user)
+                # Init session vars
+                login_user(new_user)
+            except Exception as e:
+                flash('There was an issue, plz try again!', 'danger')
+                # Clear any in-progress sqlalchemy transactions
+                try:
+                    db.session.rollback()
+                except:
+                    pass
+                try:
+                    db.session.remove()
+                except:
+                    pass
 
             return render_template('users/profile.html', user=new_user)
 

@@ -93,11 +93,24 @@ def register():
             flash('User already exsists!', 'danger')
             return render_template('users/register.html', form=form)
         else:
-            db.session.add(new_user)
-            db.session.commit()
 
-            # Init session vars
-            login_user(new_user)
+            try:
+                db.session.add(new_user)
+                db.session.commit()
+
+                # Init session vars
+                login_user(new_user)
+            except Exception as e:
+                flash('There was an issue, plz try again!', 'danger')
+                # Clear any in-progress sqlalchemy transactions
+                try:
+                    db.session.rollback()
+                except:
+                    pass
+                try:
+                    db.session.remove()
+                except:
+                    pass
 
             return render_template('users/profile.html', user=new_user)
 
@@ -122,7 +135,20 @@ def update_profile():
         else:
             flash('Username is taken, Username was not changed', 'danger')
 
-    db.session.commit()
+    try:
+        db.session.commit()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
     return redirect(url_for('users.profile'))
 
 
@@ -139,8 +165,22 @@ def update_password():
             flash('Password is not long enough!', 'danger')
         elif new_password == confirm_password:
             user.password = sha256_crypt.encrypt(str(new_password))
-            flash('Password Updated!', 'success')
-            db.session.commit()
+
+            try:
+                db.session.commit()
+                flash('Password Updated!', 'success')
+
+            except Exception as e:
+                flash('There was an issue, plz try again!', 'danger')
+                # Clear any in-progress sqlalchemy transactions
+                try:
+                    db.session.rollback()
+                except:
+                    pass
+                try:
+                    db.session.remove()
+                except:
+                    pass
         else:
             flash('Passwords dont match!', 'danger')
 
@@ -197,8 +237,21 @@ def add_friend(id):
         date=date_now()
     )
 
-    db.session.add(request)
-    db.session.commit()
+    try:
+        db.session.add(request)
+        db.session.commit()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
 
     flash('Friend Request Sent!', 'success')
     return redirect(url_for('users.public_profile', id=id))
@@ -211,8 +264,22 @@ def accept_friend(id):
     if request:
         request.status = True
         request.date = date_now()
-        db.session.commit()
-        flash('Friend added', 'success')
+
+        try:
+            db.session.commit()
+            flash('Friend added', 'success')
+
+        except Exception as e:
+            flash('There was an issue, plz try again!', 'danger')
+            # Clear any in-progress sqlalchemy transactions
+            try:
+                db.session.rollback()
+            except:
+                pass
+            try:
+                db.session.remove()
+            except:
+                pass
 
     return redirect(url_for('users.profile'))
 
@@ -222,7 +289,22 @@ def accept_friend(id):
 def deleteUser():
     if request.method == 'GET':
         user = User.query.filter_by(id=current_user.id).first()
-        db.session.delete(user)
-        db.session.commit()
-        flash('User has been deleted', 'success')
+
+        try:
+            db.session.delete(user)
+            db.session.commit()
+            flash('User has been deleted', 'success')
+
+        except Exception as e:
+            flash('There was an issue, plz try again!', 'danger')
+            # Clear any in-progress sqlalchemy transactions
+            try:
+                db.session.rollback()
+            except:
+                pass
+            try:
+                db.session.remove()
+            except:
+                pass
+
         return redirect(url_for('main.index'))

@@ -16,10 +16,10 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(40), unique=True, nullable=False)
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
-    court_visits = db.Column(db.Integer)
+    court_visits = db.Column(db.Integer, default=0)
     skill_level = db.Column(db.Integer)
     admin = db.Column(db.Boolean, default=False)
-    friend_count = db.Column(db.Integer)
+    friend_count = db.Column(db.Integer, default=0)
     join_date = db.Column(db.DateTime, nullable=False)
 
     favorite_court = db.Column(db.Integer, db.ForeignKey('court.id'))
