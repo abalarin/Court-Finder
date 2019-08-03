@@ -22,7 +22,21 @@ def list_courts():
     form = CourtSearch()
 
     if request.method == "GET":
-        courts = Court.query.all()
+
+        try:
+            courts = Court.query.all()
+
+        except Exception as e:
+            flash('There was an issue, plz try again!', 'danger')
+            # Clear any in-progress sqlalchemy transactions
+            try:
+                db.session.rollback()
+            except:
+                pass
+            try:
+                db.session.remove()
+            except:
+                pass
 
         # Get images for each listing
         for court in courts:
@@ -35,7 +49,20 @@ def list_courts():
 def list_court(id):
     if request.method == "GET":
 
-        court = Court.query.filter_by(id=id).first()
+        try:
+            court = Court.query.filter_by(id=id).first()
+
+        except Exception as e:
+            flash('There was an issue, plz try again!', 'danger')
+            # Clear any in-progress sqlalchemy transactions
+            try:
+                db.session.rollback()
+            except:
+                pass
+            try:
+                db.session.remove()
+            except:
+                pass
 
         if court is None:
             return redirect(url_for('courts.list_courts'))
@@ -49,7 +76,22 @@ def list_court(id):
 @courts.route("/court/<id>/review", methods=["POST"])
 @login_required
 def add_review(id):
-    court = Court.query.filter_by(id=id).first()
+
+    try:
+        court = Court.query.filter_by(id=id).first()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
+
     review = request.form.get("court_review")
     rating = request.form.get("rate")
 
@@ -140,12 +182,24 @@ def create_court():
                 latitude=form.latitude.data,
                 longitude=form.longitude.data)
 
-            db.session.add(court)
-            db.session.commit()
+            try:
+                db.session.add(court)
+                db.session.commit()
+                # Upload Images
+                court = Court.query.filter_by(uid=uid).first()
+                create_court_images(request.files.getlist("court_images"), court.id)
 
-            # Upload Images
-            court = Court.query.filter_by(uid=uid).first()
-            create_court_images(request.files.getlist("court_images"), court.id)
+            except Exception as e:
+                flash('There was an issue, plz try again!', 'danger')
+                # Clear any in-progress sqlalchemy transactions
+                try:
+                    db.session.rollback()
+                except:
+                    pass
+                try:
+                    db.session.remove()
+                except:
+                    pass
 
             flash("Court Created!", "success")
             return redirect(url_for("courts.list_courts"))
@@ -206,7 +260,20 @@ def update_court(id):
 def add_photo(id):
     if request.method == "GET":
 
-        court = Court.query.filter_by(id=id).first()
+        try:
+            court = Court.query.filter_by(id=id).first()
+
+        except Exception as e:
+            flash('There was an issue, plz try again!', 'danger')
+            # Clear any in-progress sqlalchemy transactions
+            try:
+                db.session.rollback()
+            except:
+                pass
+            try:
+                db.session.remove()
+            except:
+                pass
 
         if court is None:
             return redirect(url_for('courts.list_courts'))
@@ -221,9 +288,10 @@ def add_photo(id):
                 court_id=id,
                 upload_date=date_now()
             )
-            db.session.add(photo)
 
         try:
+
+            db.session.add(photo)
             db.session.commit()
 
         except Exception as e:
@@ -237,6 +305,7 @@ def add_photo(id):
                 db.session.remove()
             except:
                 pass
+
         create_court_images(request.files.getlist("court_images"), id)
 
         return redirect(url_for('courts.list_court', id=id))

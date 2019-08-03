@@ -29,7 +29,20 @@ def public_profile(id):
         if str(id) == str(current_user.id):
             return redirect(url_for('users.profile'))
 
-    user = User.query.filter_by(id=id).first()
+    try:
+        user = User.query.filter_by(id=id).first()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
 
     # Verify a requested user exsists
     if user is None:
@@ -47,8 +60,21 @@ def login():
         username = request.form.get('username')
         password_candidate = request.form.get('password')
 
-        # Query for a user with the provided username
-        result = User.query.filter_by(username=username).first()
+        try:
+            # Query for a user with the provided username
+            result = User.query.filter_by(username=username).first()
+
+        except Exception as e:
+            flash('There was an issue, plz try again!', 'danger')
+            # Clear any in-progress sqlalchemy transactions
+            try:
+                db.session.rollback()
+            except:
+                pass
+            try:
+                db.session.remove()
+            except:
+                pass
 
         # If a user exsists and passwords match - login
         if result is not None and sha256_crypt.verify(password_candidate, result.password):
@@ -120,7 +146,21 @@ def register():
 @users.route('/account/profile/update', methods=['POST'])
 @login_required
 def update_profile():
-    user = User.query.filter_by(id=current_user.id).first()
+    try:
+        user = User.query.filter_by(id=current_user.id).first()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
+
     user.first_name = request.form.get('first_name')
     user.last_name = request.form.get('last_name')
     username = request.form.get('username')
@@ -155,7 +195,22 @@ def update_profile():
 @users.route('/account/password/update', methods=['POST'])
 @login_required
 def update_password():
-    user = User.query.filter_by(id=current_user.id).first()
+
+    try:
+        user = User.query.filter_by(id=current_user.id).first()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
+
     old_password = request.form.get('old_password')
     new_password = request.form.get('new_password')
     confirm_password = request.form.get('confirm_password')
@@ -193,7 +248,22 @@ def update_password():
 @users.route('/account/email/update', methods=['POST'])
 @login_required
 def update_email():
-    user = User.query.filter_by(id=current_user.id).first()
+
+    try:
+        user = User.query.filter_by(id=current_user.id).first()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
+
     email = request.form.get('email')
 
     # Validate Email
@@ -213,9 +283,24 @@ def update_email():
 @users.route('/favorite/<id>')
 @login_required
 def favorite_court(id):
-    user = User.query.filter_by(id=current_user.id).first()
-    user.favorite_court = id
-    db.session.commit()
+
+    try:
+        user = User.query.filter_by(id=current_user.id).first()
+        user.favorite_court = id
+        db.session.commit()
+
+    except Exception as e:
+        flash('There was an issue, plz try again!', 'danger')
+        # Clear any in-progress sqlalchemy transactions
+        try:
+            db.session.rollback()
+        except:
+            pass
+        try:
+            db.session.remove()
+        except:
+            pass
+
     return(redirect(url_for('courts.list_court', id=id)))
 
 
@@ -288,9 +373,9 @@ def accept_friend(id):
 @login_required
 def deleteUser():
     if request.method == 'GET':
-        user = User.query.filter_by(id=current_user.id).first()
 
         try:
+            user = User.query.filter_by(id=current_user.id).first()
             db.session.delete(user)
             db.session.commit()
             flash('User has been deleted', 'success')
