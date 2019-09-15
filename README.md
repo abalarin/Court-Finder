@@ -1,57 +1,68 @@
-# Court-Finder
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-#### The basic necessities to run it
+## Available Scripts
 
-## Install [Python](https://www.python.org/), [pip](https://pip.pypa.io/en/stable/installing/), and [Virtualenv](https://virtualenv.pypa.io/en/latest/)
-###### Once they're downloaded verify installation:
-```
-python --version
-Python 2.7.10
+In the project directory, you can run:
 
-pip --version
-pip 19.0.3 from /Library/Python/2.7/site-packages/pip (python 2.7)
+### `npm start`
 
-virtualenv --version
-16.2.0
-```
-## Get Shit Started
-```
-# Clone and cd into this repo
-git clone https://github.com/abalarin/Court-Finder.git
-cd Court-Finder
+Runs the app in the development mode.<br>
+Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-# Create and activate the Virtualenv
-virtualenv venv
-source venv/bin/activate
+The page will reload if you make edits.<br>
+You will also see any lint errors in the console.
 
-# Install all dependencies
-pip install -e .
+### `npm test`
 
-# Lets flask know where the app starts, the "CourtFinder" dir
-export FLASK_APP=CourtFinder
+Launches the test runner in the interactive watch mode.<br>
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-# Puts flask into dev mode
-# so auto reload flask on file change & nice Traceback/stacktrace
-export FLASK_ENV=development
+### `npm run build`
 
-# Run it
-flask run
-```
+Builds the app for production to the `build` folder.<br>
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-## Set up SQL...
+The build is minified and the filenames include the hashes.<br>
+Your app is ready to be deployed!
 
-## Resources
-##### These are the official docs for Frameworks we'll be using:
-- [Flask](http://flask.pocoo.org/docs/1.0/)
-- [Flask-SQLAlchemy](http://flask-sqlalchemy.pocoo.org/2.3/) Flask wrapper for SQLAlchemy
-  - [SQLAlchemy ORM](https://docs.sqlalchemy.org/en/latest/orm/tutorial.html)
-  - [SQLAlchemy Engine](https://docs.sqlalchemy.org/en/latest/core/tutorial.html)
-- [Flask-Security](https://pythonhosted.org/Flask-Security/) Auth package that integrates other frameworks we'll use
-  - [Flask-Login](https://flask-login.readthedocs.io/en/latest/)
-  - [passlib](https://passlib.readthedocs.io/en/stable/) Password hashing
-  - [Flask-WTF](https://flask-wtf.readthedocs.io/en/stable/) Form validation
-- [Jinja](http://jinja.pocoo.org/docs/2.10/) HTML templating
-- [Flask-Marshmallow](https://flask-marshmallow.readthedocs.io/en/latest/)
-- [Marshmallow-SQLAlchemy](https://marshmallow-sqlalchemy.readthedocs.io/en/latest/)
-- [MYSQLClient](https://readthedocs.org/projects/mysqlclient/)
-- [GoogleMaps API](https://github.com/googlemaps/google-maps-services-python)
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+
+If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+
+You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+
+### Analyzing the Bundle Size
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+
+### Making a Progressive Web App
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+
+### Advanced Configuration
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+
+### Deployment
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+
+### `npm run build` fails to minify
+
+This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
