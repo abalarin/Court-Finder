@@ -1,22 +1,5 @@
-venv
-.venv
-
-CourtFinder/config.pyc
-CourtFinder/config.json
-
-*.egg-info
-*.xml
-*.iml
-*.pyc
-
-__pycache__
-/__pycache__
-
-/tests
-/.pytest_cache
-
-CourtFinder/static/images/courts
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+yarn.lock
+package-lock.json
 
 # dependencies
 /node_modules
